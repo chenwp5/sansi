@@ -1,0 +1,1646 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="chenwp5">
+      
+      
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/">
+      
+      
+        <link rel="prev" href="../Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">
+      
+      
+        <link rel="next" href="../../blog/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>Git交互式暂存 - 欢迎光~~临</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-TPQYN8G7TM"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-TPQYN8G7TM",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-TPQYN8G7TM",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>var consent;"undefined"==typeof __md_analytics||(consent=__md_get("__consent"))&&consent.analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            欢迎光~~临
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git交互式暂存
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="cyan"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chenwp5/sansi" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chenwp5/sansi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mysql/MySQL/" class="md-tabs__link">
+          
+  
+    
+  
+  数据库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+          
+  
+    
+  
+  GIT
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mkdocs" class="md-tabs__link">
+          
+  
+    
+  
+  工具
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/" class="md-tabs__link">
+          
+  
+    
+  
+  博客
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="欢迎光~~临" class="md-nav__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    欢迎光~~临
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chenwp5/sansi" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chenwp5/sansi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    数据库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            数据库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MySQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            MySQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/MySQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL技术规范
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    GIT
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            GIT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git知识总结
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Git交互式暂存
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Git交互式暂存
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、命令简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、update
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revert" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、revert
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-untracked" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、add untracked
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、patch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、diff
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    工具
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    博客
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            博客
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            归档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    分类
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            分类
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、命令简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、update
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revert" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、revert
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-untracked" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、add untracked
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、patch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、diff
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="git">Git交互式暂存<a class="headerlink" href="#git" title="Permanent link">&para;</a></h1>
+<p>当您看到这篇文章的时候，首先需要反思下是出于什么样的目的。如果是出于学习、了解的目的，那么这非常好。如果是由于您工作中经常有大量变更文件想要拆分为多次提交而不是混杂为一次提交，那么您的Git使用习惯就不是很好。当然事无绝对，就有人喜欢这种操作方式，比如我的某位同事。固然他觉得这很有逼格，但是这在本就沉重的工作中，又增加了一些负担，那必然也将伴随着其他风险：</p>
+<p><img alt="在这里插入图片描述" src="../img/yimao.jpg" /></p>
+<h2 id="_1">一、命令简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>Git交互式暂存使我们可以按照自己的意愿选择一个或多个变更文件，甚至是一个文件中的部分变更内容，将那些相关的内容添加到暂存区，以便形成一次提交。</p>
+<p>执行命令<code>git add -i</code>时，Git进入如下交互界面，以中间空行为分界，我将其分为上下两部分，上部分为工作目录中的变更文件，但不包括新增的文件。下部分为Git交互式暂存支持的命令，如下图所示共8种，而<code>What now&gt;</code>后输入命令对应的编号后回车即可执行该命令。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>frost2@frost2-pc<span class="w"> </span>MINGW64<span class="w"> </span>/e/Frost2-Files/IdeaWorkSpace/gitdemo/add-demo<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>-i
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<p>例如输入8后回车，出现如下提示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>frost2@frost2-pc<span class="w"> </span>MINGW64<span class="w"> </span>/e/Frost2-Files/IdeaWorkSpace/gitdemo/add-demo<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>-i
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">8</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>status<span class="w">        </span>-<span class="w"> </span>show<span class="w"> </span>paths<span class="w"> </span>with<span class="w"> </span>changes
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>update<span class="w">        </span>-<span class="w"> </span>add<span class="w"> </span>working<span class="w"> </span>tree<span class="w"> </span>state<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>staged<span class="w"> </span><span class="nb">set</span><span class="w"> </span>of<span class="w"> </span>changes
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>revert<span class="w">        </span>-<span class="w"> </span>revert<span class="w"> </span>staged<span class="w"> </span><span class="nb">set</span><span class="w"> </span>of<span class="w"> </span>changes<span class="w"> </span>back<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>HEAD<span class="w"> </span>version
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>patch<span class="w">         </span>-<span class="w"> </span>pick<span class="w"> </span>hunks<span class="w"> </span>and<span class="w"> </span>update<span class="w"> </span>selectively
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>diff<span class="w">          </span>-<span class="w"> </span>view<span class="w"> </span>diff<span class="w"> </span>between<span class="w"> </span>HEAD<span class="w"> </span>and<span class="w"> </span>index
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>add<span class="w"> </span>untracked<span class="w"> </span>-<span class="w"> </span>add<span class="w"> </span>contents<span class="w"> </span>of<span class="w"> </span>untracked<span class="w"> </span>files<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>staged<span class="w"> </span><span class="nb">set</span><span class="w"> </span>of<span class="w"> </span>changes
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<p>命令<code>help</code>会给出命令的简介信息：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>status</td>
+<td>查看发生了变更的文件</td>
+</tr>
+<tr>
+<td>update</td>
+<td>选择变更文件将变他们添加到暂存区</td>
+</tr>
+<tr>
+<td>revert</td>
+<td>将已添加的暂存区的文件回退到modified状态</td>
+</tr>
+<tr>
+<td>add untracked</td>
+<td>选择Git未跟踪的文件，添加到暂存区</td>
+</tr>
+<tr>
+<td>patch</td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td>查看暂存区的文件变更内容</td>
+</tr>
+<tr>
+<td>quit</td>
+<td>退出Git交互式暂存</td>
+</tr>
+<tr>
+<td>help</td>
+<td>帮助命令</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">二、update<a class="headerlink" href="#update" title="Permanent link">&para;</a></h2>
+<p>输入序号2执行命令update，选择需要添加到暂存区的文件，完整操作如下所示。当我们输入2回车后，提示由<code>What now</code>变为<code>Update</code>，在update后输入我们想要添加到暂存区的文件序号，多个文件用逗号隔开，也可用<code>1-3</code>这种格式来选择这个序号范围的文件。选择完成后回车可以看到被选择的文件前会出现<code>*</code>,此时不用输入直接回车即可将选中的文件添加到暂存区。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>frost2@frost2-pc<span class="w"> </span>MINGW64<span class="w"> </span>/e/Frost2-Files/IdeaWorkSpace/gitdemo/add-demo<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>-i
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>Update&gt;&gt;<span class="w"> </span><span class="m">1</span>,2
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>*<span class="w"> </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>*<span class="w"> </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>Update&gt;&gt;
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>updated<span class="w"> </span><span class="m">2</span><span class="w"> </span>paths
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<h2 id="revert">三、revert<a class="headerlink" href="#revert" title="Permanent link">&para;</a></h2>
+<p>上一步将文件<code>name</code>和<code>feature</code>添加到了暂存区，输入1查看状态如下所示。</p>
+<p>此时如果想要将添加到暂存区的文件回退，可以在<code>What now</code>输入3，提示变为<code>Revert</code>,同样输入序号选择想要回退的文件，如果选择了没有添加到暂存区的文件，例如本例中的文件<code>sitemap.json</code>，那么该文件不会有任务变化，另外两个文件成功退回modified状态。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>sitemap.json.
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="m">1</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>feature
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="m">2</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>name
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>sitemap.json.
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span><span class="m">1</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>feature
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">  </span><span class="m">2</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>name
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>Revert&gt;&gt;<span class="w"> </span><span class="m">1</span>,2,3
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>*<span class="w"> </span><span class="m">1</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>feature
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>*<span class="w"> </span><span class="m">2</span>:<span class="w">        </span>+1/-1<span class="w">      </span>nothing<span class="w"> </span>name
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>*<span class="w"> </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>Revert&gt;&gt;
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>reverted<span class="w"> </span><span class="m">3</span><span class="w"> </span>paths
+</code></pre></div>
+<h2 id="add-untracked">四、add untracked<a class="headerlink" href="#add-untracked" title="Permanent link">&para;</a></h2>
+<p>由于上一步中将暂存区的文件都回退了，故目前<code>git status</code>状态如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>frost2@frost2-pc<span class="w"> </span>MINGW64<span class="w"> </span>/e/Frost2-Files/IdeaWorkSpace/gitdemo/add-demo<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$<span class="w"> </span>git<span class="w"> </span>status
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>On<span class="w"> </span>branch<span class="w"> </span>master
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Changes<span class="w"> </span>not<span class="w"> </span>staged<span class="w"> </span><span class="k">for</span><span class="w"> </span>commit:
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>update<span class="w"> </span>what<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>committed<span class="o">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git checkout -- &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>discard<span class="w"> </span>changes<span class="w"> </span><span class="k">in</span><span class="w"> </span>working<span class="w"> </span>directory<span class="o">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span>modified:<span class="w">   </span>feature
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span>modified:<span class="w">   </span>name
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span>modified:<span class="w">   </span>sitemap.json
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>Untracked<span class="w"> </span>files:
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>include<span class="w"> </span><span class="k">in</span><span class="w"> </span>what<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>committed<span class="o">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">        </span>newfile
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>no<span class="w"> </span>changes<span class="w"> </span>added<span class="w"> </span>to<span class="w"> </span>commit<span class="w"> </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add&quot;</span><span class="w"> </span>and/or<span class="w"> </span><span class="s2">&quot;git commit -a&quot;</span><span class="o">)</span>
+</code></pre></div>
+<p>可以看到目前工作目录中有一个新添加的文件<code>newfile</code>，但是Git交互式暂存中status不会显示为跟踪的文件，如果需要将它添加到暂存区，需要通过命令<code>add untracked</code>，具体步骤如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>newfile
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>Add<span class="w"> </span>untracked&gt;&gt;<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>*<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>newfile
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>Add<span class="w"> </span>untracked&gt;&gt;
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>newfile.
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>added<span class="w"> </span><span class="m">1</span><span class="w"> </span>path
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">  </span><span class="m">3</span>:<span class="w">        </span>+1/-0<span class="w">      </span>nothing<span class="w"> </span>newfile
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">  </span><span class="m">4</span>:<span class="w">    </span>unchanged<span class="w">        </span>+8/-6<span class="w"> </span>sitemap.json
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<h2 id="patch">五、patch<a class="headerlink" href="#patch" title="Permanent link">&para;</a></h2>
+<p>通过patch命令我们可以将文件中的修改内容分成不用块，然后选择其中一个或多个块将他们添加到暂存区，首先输入5，选择对应的文件后如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+3/-2<span class="w"> </span>suggest.json
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Patch<span class="w"> </span>update&gt;&gt;<span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>*<span class="w"> </span><span class="m">3</span>:<span class="w">    </span>unchanged<span class="w">        </span>+3/-2<span class="w"> </span>suggest.json
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Patch<span class="w"> </span>update&gt;&gt;
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>diff<span class="w"> </span>--git<span class="w"> </span>a/suggest.json<span class="w"> </span>b/suggest.json
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>index<span class="w"> </span>3caab45..4ba5661<span class="w"> </span><span class="m">100644</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>---<span class="w"> </span>a/suggest.json
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>+++<span class="w"> </span>b/suggest.json
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>@@<span class="w"> </span>-1,9<span class="w"> </span>+1,10<span class="w"> </span>@@
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">   </span><span class="s2">&quot;desc&quot;</span>:<span class="w"> </span><span class="s2">&quot;Git书籍推荐&quot;</span>,
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>-<span class="w">  </span><span class="s2">&quot;book&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>+<span class="w">  </span><span class="s2">&quot;book_name&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">   </span><span class="s2">&quot;book_url&quot;</span>:<span class="w"> </span><span class="s2">&quot;https://git-scm.com/book/zh/v2&quot;</span>,
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">   </span><span class="s2">&quot;suggest&quot;</span>:<span class="w"> </span><span class="s2">&quot;git初学者实不建议看各种博客、网站，Git官网书籍《Pro Git》安心读一遍足矣&quot;</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>-<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>+<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>,
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>+<span class="w">  </span><span class="s2">&quot;date&quot;</span>:<span class="w"> </span><span class="s2">&quot;2021-12-30&quot;</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,s,e,?<span class="o">]</span>?
+</code></pre></div>
+<p>此时提示的<code>[y,n,q,a,d,s,e,?]</code>为目前支持的命令，输入<code>?</code>可以展示这些命令的说明。如下所示</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,s,e,?<span class="o">]</span>?<span class="w"> </span>?
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>y<span class="w"> </span>-<span class="w"> </span>stage<span class="w"> </span>this<span class="w"> </span>hunk
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>n<span class="w"> </span>-<span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>stage<span class="w"> </span>this<span class="w"> </span>hunk
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>q<span class="w"> </span>-<span class="w"> </span>quit<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span>or<span class="w"> </span>any<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>remaining<span class="w"> </span>ones
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>a<span class="w"> </span>-<span class="w"> </span>stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span>and<span class="w"> </span>all<span class="w"> </span>later<span class="w"> </span>hunks<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>file
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>d<span class="w"> </span>-<span class="w"> </span><span class="k">do</span><span class="w"> </span>not<span class="w"> </span>stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span>or<span class="w"> </span>any<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>later<span class="w"> </span>hunks<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>file
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>s<span class="w"> </span>-<span class="w"> </span>split<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>hunk<span class="w"> </span>into<span class="w"> </span>smaller<span class="w"> </span>hunks
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>e<span class="w"> </span>-<span class="w"> </span>manually<span class="w"> </span>edit<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>hunk
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>?<span class="w"> </span>-<span class="w"> </span>print<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>@@<span class="w"> </span>-1,9<span class="w"> </span>+1,10<span class="w"> </span>@@
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">   </span><span class="s2">&quot;desc&quot;</span>:<span class="w"> </span><span class="s2">&quot;Git书籍推荐&quot;</span>,
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>-<span class="w">  </span><span class="s2">&quot;book&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>+<span class="w">  </span><span class="s2">&quot;book_name&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">   </span><span class="s2">&quot;book_url&quot;</span>:<span class="w"> </span><span class="s2">&quot;https://git-scm.com/book/zh/v2&quot;</span>,
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">   </span><span class="s2">&quot;suggest&quot;</span>:<span class="w"> </span><span class="s2">&quot;git初学者实不建议看各种博客、网站，Git官网书籍《Pro Git》安心读一遍足矣&quot;</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>-<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>+<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>,
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>+<span class="w">  </span><span class="s2">&quot;date&quot;</span>:<span class="w"> </span><span class="s2">&quot;2021-12-30&quot;</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,s,e,?<span class="o">]</span>?
+</code></pre></div>
+<p>此时输入<code>s</code>，Git会将修改内容分块，如下所示会显示第一块变更内容，通过<code>y</code>和<code>n</code>可以选择添加或者不添加到暂存区，本例中我们将第一块变更添加到暂存区，添加后会调到下一块内容，再选择<code>n</code>不添加第二块内容到暂存区，具体操作如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,s,e,?<span class="o">]</span>?<span class="w"> </span>s
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Split<span class="w"> </span>into<span class="w"> </span><span class="m">2</span><span class="w"> </span>hunks.
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>@@<span class="w"> </span>-1,7<span class="w"> </span>+1,7<span class="w"> </span>@@
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">   </span><span class="s2">&quot;desc&quot;</span>:<span class="w"> </span><span class="s2">&quot;Git书籍推荐&quot;</span>,
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>-<span class="w">  </span><span class="s2">&quot;book&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>+<span class="w">  </span><span class="s2">&quot;book_name&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">   </span><span class="s2">&quot;book_url&quot;</span>:<span class="w"> </span><span class="s2">&quot;https://git-scm.com/book/zh/v2&quot;</span>,
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">   </span><span class="s2">&quot;suggest&quot;</span>:<span class="w"> </span><span class="s2">&quot;git初学者实不建议看各种博客、网站，Git官网书籍《Pro Git》安心读一遍足矣&quot;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,j,J,g,/,e,?<span class="o">]</span>?<span class="w"> </span>y
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>@@<span class="w"> </span>-4,6<span class="w"> </span>+4,7<span class="w"> </span>@@
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">   </span><span class="s2">&quot;book_url&quot;</span>:<span class="w"> </span><span class="s2">&quot;https://git-scm.com/book/zh/v2&quot;</span>,
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">   </span><span class="s2">&quot;suggest&quot;</span>:<span class="w"> </span><span class="s2">&quot;git初学者实不建议看各种博客、网站，Git官网书籍《Pro Git》安心读一遍足矣&quot;</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>-<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>+<span class="w">  </span><span class="s2">&quot;author&quot;</span>:<span class="w"> </span><span class="s2">&quot;frost2&quot;</span>,
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>+<span class="w">  </span><span class="s2">&quot;date&quot;</span>:<span class="w"> </span><span class="s2">&quot;2021-12-30&quot;</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>Stage<span class="w"> </span>this<span class="w"> </span>hunk<span class="w"> </span><span class="o">[</span>y,n,q,a,d,K,g,/,e,?<span class="o">]</span>?<span class="w"> </span>n
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>feature.
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>name.
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>suggest.json.
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="w">  </span><span class="m">1</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>feature
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="w">  </span><span class="m">2</span>:<span class="w">    </span>unchanged<span class="w">        </span>+1/-1<span class="w"> </span>name
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="w">  </span><span class="m">3</span>:<span class="w">        </span>+1/-0<span class="w">      </span>nothing<span class="w"> </span>newfile
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">  </span><span class="m">4</span>:<span class="w">        </span>+1/-1<span class="w">        </span>+2/-1<span class="w"> </span>suggest.json
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<h2 id="diff">六、diff<a class="headerlink" href="#diff" title="Permanent link">&para;</a></h2>
+<p>命令<code>diff</code>可以查看添加到暂存区文件的变更，上一步我们将<code>suggest.json</code>的第一块变更添加到了暂存区，正好可以通过命令<code>diff</code>验证一下。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>What<span class="w"> </span>now&gt;<span class="w"> </span><span class="m">6</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>feature.
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>name.
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>warning:<span class="w"> </span>LF<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>replaced<span class="w"> </span>by<span class="w"> </span>CRLF<span class="w"> </span><span class="k">in</span><span class="w"> </span>suggest.json.
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>The<span class="w"> </span>file<span class="w"> </span>will<span class="w"> </span>have<span class="w"> </span>its<span class="w"> </span>original<span class="w"> </span>line<span class="w"> </span>endings<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>working<span class="w"> </span>directory
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">           </span>staged<span class="w">     </span>unstaged<span class="w"> </span>path
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="m">1</span>:<span class="w">        </span>+1/-0<span class="w">      </span>nothing<span class="w"> </span>newfile
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="m">2</span>:<span class="w">        </span>+1/-1<span class="w">        </span>+2/-1<span class="w"> </span>suggest.json
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Review<span class="w"> </span>diff&gt;&gt;<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>diff<span class="w"> </span>--git<span class="w"> </span>a/suggest.json<span class="w"> </span>b/suggest.json
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>index<span class="w"> </span>3caab45..39fe4a5<span class="w"> </span><span class="m">100644</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>---<span class="w"> </span>a/suggest.json
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>+++<span class="w"> </span>b/suggest.json
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>@@<span class="w"> </span>-1,6<span class="w"> </span>+1,6<span class="w"> </span>@@
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">   </span><span class="s2">&quot;desc&quot;</span>:<span class="w"> </span><span class="s2">&quot;Git书籍推荐&quot;</span>,
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>-<span class="w">  </span><span class="s2">&quot;book&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>+<span class="w">  </span><span class="s2">&quot;book_name&quot;</span>:<span class="w"> </span><span class="s2">&quot;Pro Git&quot;</span>,
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">   </span><span class="s2">&quot;book_url&quot;</span>:<span class="w"> </span><span class="s2">&quot;https://git-scm.com/book/zh/v2&quot;</span>,
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">   </span><span class="s2">&quot;suggest&quot;</span>:<span class="w"> </span><span class="s2">&quot;git初学者实不建议看各种博客、网站，Git官网书籍《Pro Git》安心读一遍足矣&quot;</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w"> </span><span class="o">}</span>,
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>***<span class="w"> </span>Commands<span class="w"> </span>***
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">  </span><span class="m">1</span>:<span class="w"> </span>status<span class="w">       </span><span class="m">2</span>:<span class="w"> </span>update<span class="w">       </span><span class="m">3</span>:<span class="w"> </span>revert<span class="w">       </span><span class="m">4</span>:<span class="w"> </span>add<span class="w"> </span>untracked
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">  </span><span class="m">5</span>:<span class="w"> </span>patch<span class="w">        </span><span class="m">6</span>:<span class="w"> </span>diff<span class="w">         </span><span class="m">7</span>:<span class="w"> </span>quit<span class="w">         </span><span class="m">8</span>:<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>What<span class="w"> </span>now&gt;
+</code></pre></div>
+<p>可以看到暂存区中的文件<code>suggest.json</code>的变更确为我们添加的第一块内容，输入<code>7</code>退出Git交互式暂存，执行<code>git status</code>如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>frost2@frost2-pc<span class="w"> </span>MINGW64<span class="w"> </span>/e/Frost2-Files/IdeaWorkSpace/gitdemo/add-demo<span class="w"> </span><span class="o">(</span>master<span class="o">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>$<span class="w"> </span>git<span class="w"> </span>status
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>On<span class="w"> </span>branch<span class="w"> </span>master
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>Changes<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>committed:
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git reset HEAD &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>unstage<span class="o">)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span>new<span class="w"> </span>file:<span class="w">   </span>newfile
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">        </span>modified:<span class="w">   </span>suggest.json
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>Changes<span class="w"> </span>not<span class="w"> </span>staged<span class="w"> </span><span class="k">for</span><span class="w"> </span>commit:
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git add &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>update<span class="w"> </span>what<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>committed<span class="o">)</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span><span class="o">(</span>use<span class="w"> </span><span class="s2">&quot;git checkout -- &lt;file&gt;...&quot;</span><span class="w"> </span>to<span class="w"> </span>discard<span class="w"> </span>changes<span class="w"> </span><span class="k">in</span><span class="w"> </span>working<span class="w"> </span>directory<span class="o">)</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span>modified:<span class="w">   </span>feature
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">        </span>modified:<span class="w">   </span>name
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span>modified:<span class="w">   </span>suggest.json
+</code></pre></div>
+<p>现假设目前暂存区就是我们想要的一次提交，此时就可以执行<code>git commit</code>命令生成一次提交。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        此页面是否对你有帮助吗？
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35Z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5 3 7M16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3Z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              谢谢你的反馈！
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              谢谢你的反馈，如果发现什么问题请联系我，我会尽快回复您
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-2023陈伟平
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://chenwp5.github.io/sansi/" target="_blank" rel="noopener" title="chenwp5.github.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="zanwu" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M385.2 167.6c6.4 0 12.6.3 18.8 1.1C387.4 90.3 303.3 32 207.7 32 100.5 32 13 104.8 13 197.4c0 53.4 29.3 97.5 77.9 131.6l-19.3 58.6 68-34.1c24.4 4.8 43.8 9.7 68.2 9.7 6.2 0 12.1-.3 18.3-.8-4-12.9-6.2-26.6-6.2-40.8-.1-84.9 72.9-154 165.3-154zm-104.5-52.9c14.5 0 24.2 9.7 24.2 24.4 0 14.5-9.7 24.2-24.2 24.2-14.8 0-29.3-9.7-29.3-24.2.1-14.7 14.6-24.4 29.3-24.4zm-136.4 48.6c-14.5 0-29.3-9.7-29.3-24.2 0-14.8 14.8-24.4 29.3-24.4 14.8 0 24.4 9.7 24.4 24.4 0 14.6-9.6 24.2-24.4 24.2zM563 319.4c0-77.9-77.9-141.3-165.4-141.3-92.7 0-165.4 63.4-165.4 141.3S305 460.7 397.6 460.7c19.3 0 38.9-5.1 58.6-9.9l53.4 29.3-14.8-48.6C534 402.1 563 363.2 563 319.4zm-219.1-24.5c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.8 0 24.4 9.7 24.4 19.3 0 10-9.7 19.6-24.4 19.6zm107.1 0c-9.7 0-19.3-9.7-19.3-19.6 0-9.7 9.7-19.3 19.3-19.3 14.5 0 24.4 9.7 24.4 19.3.1 10-9.9 19.6-24.4 19.6z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+  
+    
+  
+
+
+  
+    
+  
+
+
+
+  
+
+
+<h4>Cookie consent</h4>
+<p>我们也使用cookies来识别您的重复访问和偏好来衡量我们文档的有效性以及用户是否找到他们要找的东西。 如果你同意,你可以帮助我们让我们的网站更好。</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+      
+      
+        
+        
+      
+      <li class="task-list-item">
+        <label class="task-list-control">
+          <input type="checkbox" name="analytics" checked>
+          <span class="task-list-indicator"></span>
+          Google Analytics
+        </label>
+      </li>
+    
+      
+      
+        
+        
+      
+      <li class="task-list-item">
+        <label class="task-list-control">
+          <input type="checkbox" name="github" checked>
+          <span class="task-list-indicator"></span>
+          GitHub
+        </label>
+      </li>
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">同意</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">管理设定</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "navigation.expand", "navigation.indexes", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
