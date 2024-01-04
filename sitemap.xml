@@ -2,57 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://chenwp5.github.io/sansi/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/tags/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/blog/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenwp5.github.io/sansi/blog/2023/01/04/%E5%BA%96%E4%B8%81%E8%A7%A3-innodb-%E4%B9%8B-buffer-pool/</loc>
+         <lastmod>2024-01-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenwp5.github.io/sansi/blog/2023/01/04/%E8%B0%83%E8%8A%82%E7%A3%81%E7%9B%98%E5%92%8Ccpu%E7%9A%84%E7%9F%9B%E7%9B%BE--innodb-%E7%9A%84-buffer-pool/</loc>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/blog/2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/mysql/Innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/mysql/MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/blog/archive/2023/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/blog/category/linux/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenwp5.github.io/sansi/blog/category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/</loc>
+         <lastmod>2024-01-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenwp5.github.io/sansi/blog/category/mysql/</loc>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenwp5.github.io/sansi/tags/</loc>
-         <lastmod>2024-01-03</lastmod>
+         <lastmod>2024-01-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
