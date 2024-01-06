@@ -10,11 +10,13 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Buffer%20Pool/">
       
       
+        <link rel="prev" href="../InnoDB%E6%A6%82%E8%BF%B0/">
       
-        <link rel="next" href="../MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/">
+      
+        <link rel="next" href="../read_ahead/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +24,7 @@
     
     
       
-        <title>InnoDB存储引擎 - 欢迎光~~临</title>
+        <title>Buffer Pool - 欢迎光~~临</title>
       
     
     
@@ -84,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#innodb" class="md-skip">
+        <a href="#buffer-pool" class="md-skip">
           跳转至
         </a>
       
@@ -96,7 +98,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
     <a href="../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
       
@@ -118,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              InnoDB存储引擎
+              Buffer Pool
             
           </span>
         </div>
@@ -215,14 +219,8 @@
     
   </nav>
   
-</header>
     
-    <div class="md-container" data-md-component="container">
       
-      
-        
-          
-            
 <nav class="md-tabs" aria-label="标签" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
@@ -243,8 +241,16 @@
   
     
     
+      
+  
+  
+    
+  
+  
+    
+    
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
           
   
     
@@ -253,6 +259,9 @@
 
         </a>
       </li>
+    
+  
+
     
   
 
@@ -323,7 +332,13 @@
     </ul>
   </div>
 </nav>
-          
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
         
       
       <main class="md-main" data-md-component="main">
@@ -464,6 +479,74 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    InnoDB
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            InnoDB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    版本及新特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -476,7 +559,7 @@
           
   
   <span class="md-ellipsis">
-    InnoDB存储引擎
+    Buffer Pool
   </span>
   
 
@@ -487,7 +570,7 @@
         
   
   <span class="md-ellipsis">
-    InnoDB存储引擎
+    Buffer Pool
   </span>
   
 
@@ -520,45 +603,26 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      二、体系架构
+      二、组织结构
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、体系架构">
+    <nav class="md-nav" aria-label="二、组织结构">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1innodb" class="md-nav__link">
+  <a href="#21-buffer-chunks" class="md-nav__link">
     <span class="md-ellipsis">
-      1.InnoDB架构图
+      2.1 Buffer Chunks
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2innodb80" class="md-nav__link">
+  <a href="#21-blockpage" class="md-nav__link">
     <span class="md-ellipsis">
-      2.Innodb8.0版本新增功能
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.Innodb8.0版本新增功能">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-doublewrite-buffer-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Doublewrite Buffer File
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 其他的以后遇到再说
+      2.1 Block、Page
     </span>
   </a>
   
@@ -568,145 +632,92 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#lru" class="md-nav__link">
     <span class="md-ellipsis">
-      3.缓冲池
+      三、LRU列表
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.缓冲池">
+    <nav class="md-nav" aria-label="三、LRU列表">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#31" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1 组织结构
+      3.1 具体实现
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.1 组织结构">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 原因
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#free" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、Free列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flush" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、Flush列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、Checkpoint机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Checkpoint机制">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#311" class="md-nav__link">
+  <a href="#61-lsn" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.1 结构图
+      6.1 LSN
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-blockpagechunk" class="md-nav__link">
+  <a href="#62-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2 Block、Page和Chunk
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#31-lru" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 LRU列表
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.1 LRU列表">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#311_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1.1 具体实现
+      6.2 Checkpoint作用
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312" class="md-nav__link">
+  <a href="#63-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2 原因
+      6.3 Checkpoint分类
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-free" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 Free列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-flush" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Flush列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4 Checkpoint机制
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.4 Checkpoint机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#341-lsn" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.1 LSN
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#342-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.2 Checkpoint作用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#343-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.3 Checkpoint分类
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -718,6 +729,35 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../read_ahead/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    预读[TD]
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1236,45 +1276,26 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      二、体系架构
+      二、组织结构
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、体系架构">
+    <nav class="md-nav" aria-label="二、组织结构">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1innodb" class="md-nav__link">
+  <a href="#21-buffer-chunks" class="md-nav__link">
     <span class="md-ellipsis">
-      1.InnoDB架构图
+      2.1 Buffer Chunks
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2innodb80" class="md-nav__link">
+  <a href="#21-blockpage" class="md-nav__link">
     <span class="md-ellipsis">
-      2.Innodb8.0版本新增功能
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.Innodb8.0版本新增功能">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-doublewrite-buffer-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Doublewrite Buffer File
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 其他的以后遇到再说
+      2.1 Block、Page
     </span>
   </a>
   
@@ -1284,145 +1305,92 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#lru" class="md-nav__link">
     <span class="md-ellipsis">
-      3.缓冲池
+      三、LRU列表
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.缓冲池">
+    <nav class="md-nav" aria-label="三、LRU列表">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#31" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1 组织结构
+      3.1 具体实现
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.1 组织结构">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 原因
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#free" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、Free列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flush" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、Flush列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、Checkpoint机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Checkpoint机制">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#311" class="md-nav__link">
+  <a href="#61-lsn" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.1 结构图
+      6.1 LSN
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312-blockpagechunk" class="md-nav__link">
+  <a href="#62-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2 Block、Page和Chunk
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#31-lru" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 LRU列表
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.1 LRU列表">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#311_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1.1 具体实现
+      6.2 Checkpoint作用
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#312" class="md-nav__link">
+  <a href="#63-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1.2 原因
+      6.3 Checkpoint分类
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-free" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 Free列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-flush" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Flush列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4 Checkpoint机制
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3.4 Checkpoint机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#341-lsn" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.1 LSN
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#342-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.2 Checkpoint作用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#343-checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.4.3 Checkpoint分类
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1449,126 +1417,149 @@
   
 
 
-<h1 id="innodb">Innodb存储引擎<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h1>
+<h1 id="buffer-pool">Buffer Pool<a class="headerlink" href="#buffer-pool" title="Permanent link">&para;</a></h1>
 <h2 id="_1">一、概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>什么是InnoDB？请看官网：<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html">Introduction to InnoDB</a></p>
-<p>不晓得从什么时候开始InnoDB的版本号与MySQL的版本号保持一致了。通过变量<code>innodb_version</code>可以查看。</p>
-<ul>
-<li>mysql5.7</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SHOW</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="ss">&quot;innodb_version&quot;</span><span class="p">;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w">  </span><span class="o">|</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_version</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">37</span><span class="w"> </span><span class="o">|</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
-</code></pre></div>
-<ul>
-<li>mysql8.0</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SHOW</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="ss">&quot;innodb_version&quot;</span><span class="p">;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w">  </span><span class="o">|</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_version</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">8</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">32</span><span class="w"> </span><span class="o">|</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">+</span><span class="c1">----------------+--------+</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">05</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
-</code></pre></div>
-<p>版本新增特性如下：</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysql-nutshell.html">5.7版本新增特性说明</a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html">8.0版本新增特性说明</a></li>
-</ul>
-<h2 id="_2">二、体系架构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<h3 id="1innodb">1.InnoDB架构图<a class="headerlink" href="#1innodb" title="Permanent link">&para;</a></h3>
-<ul>
-<li>5.7版本架构图</li>
-</ul>
-<p><img alt="" src="../img/Innodb_structure57.png" /></p>
-<ul>
-<li>8.0版本架构图</li>
-</ul>
-<p><img alt="" src="../img/Innodb_structure8.png" /></p>
-<h3 id="2innodb80">2.Innodb8.0版本新增功能<a class="headerlink" href="#2innodb80" title="Permanent link">&para;</a></h3>
-<h4 id="21-doublewrite-buffer-file">2.1 Doublewrite Buffer File<a class="headerlink" href="#21-doublewrite-buffer-file" title="Permanent link">&para;</a></h4>
-<p>MySQL 8.0.20之前，双写缓冲区存储区域位于<code>InnoDB</code>系统表空间中。从MySQL 8.0.20开始，双写缓冲区存储区域位于双写文件中。将存储区域移出系统表空间可减少写入延迟、提高吞吐量，并为双写缓冲区页面的放置提供灵活性。为双写缓冲区配置提供以下变量：</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_doublewrite_dir"><code>innodb_doublewrite_dir</code></a></li>
-</ul>
-<p>定义双写缓冲区文件目录。</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_doublewrite_files"><code>innodb_doublewrite_files</code></a></li>
-</ul>
-<p>定义双写文件的数量。</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_doublewrite_pages"><code>innodb_doublewrite_pages</code></a></li>
-</ul>
-<p>定义批量写入的每个线程的最大双写页数。</p>
-<ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_doublewrite_batch_size"><code>innodb_doublewrite_batch_size</code></a></li>
-</ul>
-<p>定义批量写入的双写页数。</p>
-<h4 id="22">2.2 其他的以后遇到再说<a class="headerlink" href="#22" title="Permanent link">&para;</a></h4>
-<h3 id="3">3.缓冲池<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
-<p>缓冲池是主内存中的一个区域，它主要用于缓存数据库中的数据和索引，以减少直接从磁盘进行IO操作的次数，从而提高数据库的性能。在专用服务器上，高达 80% 的物理内存通常分配给缓冲池。</p>
+<p>缓冲池（<code>Buffer Pool</code>）是主内存中的一个区域，它主要用于缓存数据库中的数据和索引，以减少直接从磁盘进行IO操作的次数，从而提高数据库的性能。在专用服务器上，高达 80% 的物理内存通常分配给缓冲池。</p>
 <p>为了提高大容量读取操作的效率，缓冲池被划分为可以容纳多行的页面。为了提高缓存管理的效率，缓冲池被实现为页面的链表，使用LRU算法的变体，很少使用的数据会从缓存中老化。</p>
-<h4 id="31">3.1 组织结构<a class="headerlink" href="#31" title="Permanent link">&para;</a></h4>
-<p>为了减少并发访问的冲突，InnoDB将Buffer Pool划分为<code>innodb_buffer_pool_instances</code>个Buffer Pool Instances，Instance之间没有锁冲突，每个Page固定属于其中一个Instance。从结构上看每个Instance都是对等的，因此本文接下来的内容都以一个Instance来进行介绍的。</p>
-<h5 id="311">3.1.1 结构图<a class="headerlink" href="#311" title="Permanent link">&para;</a></h5>
-<p><img alt="" src="../../blog/featured_articles/img/jx_240104_006.awebp" /></p>
-<h5 id="312-blockpagechunk">3.1.2 Block、Page和Chunk<a class="headerlink" href="#312-blockpagechunk" title="Permanent link">&para;</a></h5>
-<p>Buffer Pool将分配的内存大小划分为相等的Block，同时为每一个Block分配了一个内存管理结构<strong>buf_block_t</strong>，用来维护Block相关的状态信息、加锁信息、内存数据结构指针等。Block是Page在内存中的载体，很多场景下他就是Page。代码上看buf_block_t的开头就是维护Page信息的buf_page_t，从而他们之间可以直接做类型强制转换：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">buf_block_t</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">buf_page_t</span><span class="w"> </span><span class="n">page</span><span class="p">;</span><span class="w"> </span><span class="cm">/*!&lt; page information; this must</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">                   be the first field, so that</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">                   buf_pool-&gt;page_hash can point</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm">                   to buf_page_t or buf_block_t */</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="p">...</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
+<h2 id="_2">二、组织结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>为了减少并发访问的冲突，InnoDB将Buffer Pool划分为一个或多个Buffer Pool Instances，每个Instance之间没有锁冲突，每个Page固定属于其中一个Instance。从结构上看每个Instance都是对等的，单个Instance的数据结构为<strong>buf_pool_t</strong>，因此本文接下来的内容都以一个Instance来进行介绍的。</p>
+<ul>
+<li>通过<code>innodb_buffer_pool_size</code>设置缓冲池总大小</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;innodb_buffer_pool_size&#39;</span><span class="p">;</span><span class="w"> </span><span class="o">//</span><span class="mi">128</span><span class="n">M</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">+</span><span class="c1">-------------------------+-----------+</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">           </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w">     </span><span class="o">|</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="o">+</span><span class="c1">-------------------------+-----------+</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_buffer_pool_size</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">134217728</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">+</span><span class="c1">-------------------------+-----------+</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
 </code></pre></div>
-<p>单个buf_block_t需要几百个字节存储，以100G的Buffer Pool，16KB的Page Size为例，将会有6M个Block，这么多的buf_block_t的内存占用也是非常可观的。为了方便这部分内存的分配和管理，InnoDB将其直接拼接到Block数组之前，这也是为什么Buffer Pool的实际内存占用会看到略大于配置的<code>innodb_buffer_pool_size</code>。后来为了方便在线调整大小，从5.7开始Buffer Pool又将内存划分为默认128MB的Chunk，每个Chunk内部都是如下的内存结构：</p>
-<p><img alt="" src="../../blog/featured_articles/img/chunk_block.png" />在启动时，<code>buf_chunk_init</code>函数中通过mmap分配Buffer Pool需要的所有内存，因此InnoDB在启动时并不会真正占用这么大的物理内存，而是随着Page的分配不断上涨的。每个buf_block_t都对应一个Block，那在分配足够多的buf_block_t和Block后，可能剩余的那点儿空间不够一对buf_block_t和Block的大小，这个用不到的那点儿内存空间就被称为<code>碎片</code>。</p>
-<h4 id="31-lru">3.1 LRU列表<a class="headerlink" href="#31-lru" title="Permanent link">&para;</a></h4>
+<ul>
+<li>通过<code>innodb_buffer_pool_instances</code>设置缓冲池实例数</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;innodb_buffer_pool_instances&#39;</span><span class="p">;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">+</span><span class="c1">------------------------------+-------+</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">                </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">+</span><span class="c1">------------------------------+-------+</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_buffer_pool_instances</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">     </span><span class="o">|</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">+</span><span class="c1">------------------------------+-------+</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">20</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="21-buffer-chunks">2.1 Buffer Chunks<a class="headerlink" href="#21-buffer-chunks" title="Permanent link">&para;</a></h3>
+<p>在MySQL 5.7.5之前，Buffer Pool只能在启动时通过innodb_buffer_pool_size参数来调整大小。在MySQL 5.7.5及之后的版本中支持在数据库运行过程中调整Buffer Pool大小。为此，InnoDB存储引擎将一个Instance划分为若干个Chunk组成，每次向操作系统申请缓存时就以一个Chunk为单位。其数据结构为<strong>buf_chunk_t</strong>。</p>
+<ul>
+<li>通过参数<code>innodb_buffer_pool_chunk_size</code>设置Chunk大小</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;innodb_buffer_pool_chunk_size&#39;</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="o">+</span><span class="c1">-------------------------------+-----------+</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">                 </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w">     </span><span class="o">|</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="o">+</span><span class="c1">-------------------------------+-----------+</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_buffer_pool_chunk_size</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">134217728</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="o">+</span><span class="c1">-------------------------------+-----------+</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>需要注意的是：</p>
+<p>innodb_buffer_pool_chunk_size默认情况下大小为128M，只能在数据库启动时设置，不能在运行期间修改，以保证每次向操作系统申请的连续空间大小一致。</p>
+</blockquote>
+<ul>
+<li>Buffer Pool Size、Instance、Chunk关系</li>
+</ul>
+<p>InnoDB存储引擎规定了<code>innodb_buffer_pool_size</code>必须是<code>innodb_buffer_pool_chunk_size</code> 乘以 <code>innodb_buffer_pool_instances</code>的倍数。假如我故意修改参数值使其不满足上面这个关系，那么InnoDB会自动调整变量值，使其满足上述关系。细节我就不赘述了，可以看官网说明，这里详细讲述了三者关系：<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool-resize.html">Configuring InnoDB Buffer Pool Size</a></p>
+<h3 id="21-blockpage">2.1 Block、Page<a class="headerlink" href="#21-blockpage" title="Permanent link">&para;</a></h3>
+<p>InnoDB存储引擎将分配的内存（Chunk）划分为大小相等的Block，同时为每一个Block都分配了一个内存管理结构<strong>buf_block_t</strong>，用来维护Block相关的状态信息、加锁信息、内存数据结构指针等。Block是Page在内存中的载体，真正的数据页就保存在Block中，其部分代码如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cm">/** The buffer control block structure */</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">buf_block_t</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="cm">/** page information; this must be the first field, so </span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="cm">  that buf_pool-&gt;page_hash can point to buf_page_t or buf_block_t</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="cm">  */</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="n">buf_page_t</span><span class="w"> </span><span class="n">page</span><span class="p">;</span><span class="w"> </span><span class="c1">//page页数据结构</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="cm">/** read-write lock of the buffer frame */</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="n">BPageLock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="cm">/** pointer to buffer frame which is of size UNIV_PAGE_SIZE, </span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="cm">  and aligned to an address divisible by UNIV_PAGE_SIZE */</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="n">byte</span><span class="w"> </span><span class="o">*</span><span class="n">frame</span><span class="p">;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="p">......</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>Buffer Chunks中控制块被存放到前边，缓存页被存放到后边，控制块中buf_block_t通过指针指向block，其结构大致如下所示：</p>
+<p><img alt="" src="../../blog/featured_articles/img/chunk_block.png" /></p>
+<p>在InnoDB启动时，默认使用<code>mmap</code>来分配内存。 分配之后通过<code>buf_chunk_init</code>函数初始化Buffer Chunks，因此InnoDB在启动时并不会真正占用这么大的物理内存，而是随着Page的分配不断上涨的。每个buf_block_t都对应一个Block，那在分配足够多的buf_block_t和Block后，可能剩余的那点儿空间不够一对buf_block_t和Block的大小，这个用不到的那点儿内存空间就被称为<code>碎片</code>。</p>
+<h2 id="lru">三、LRU列表<a class="headerlink" href="#lru" title="Permanent link">&para;</a></h2>
+<p>通过上述篇幅已经了解了Buffer Pool中的数据存储结构，那么现在该考虑如何管理内存中的数据了。首先需要考虑的是内存是有限的，当达到上限时该如何如何操作？InnoDB存储引擎使用LRU算法当内存达到上限时淘汰部分数据。</p>
+<h3 id="31">3.1 具体实现<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>InnoDB存储引擎，在LRU算法的基础上加入了midlepoint位置，新读取的页不是放在首部，而是放在midlepoint位置。默认配置下该位置位于列表的5/8处，由参数<code>innodb_old_blocks_pct</code>控制。其值默认为37（大约为3/8）。在InnoDB中将midlepoint之前的部分称为<strong>new sublist</strong>，之后的部分称为<strong>old sublist</strong>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">//</span><span class="err">默认</span><span class="mi">37</span><span class="err">，最大值为</span><span class="mi">95</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">global</span><span class="w"> </span><span class="n">innodb_old_blocks_pct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">Query</span><span class="w"> </span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="n">affected</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">warning</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;innodb_old_blocks_pct&#39;</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="o">+</span><span class="c1">-----------------------+-------+</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">         </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="o">+</span><span class="c1">-----------------------+-------+</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_old_blocks_pct</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">95</span><span class="w">    </span><span class="o">|</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="o">+</span><span class="c1">-----------------------+-------+</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<p>InnoDB还引入了另一个参数<code>innodb_old_blocks_time</code>，用来指定第一次访问页后的时间窗口（以毫秒为单位），在此期间可以访问该页而无需将其移动到 new sublist的头部。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">variables</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;innodb_old_blocks_time&#39;</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">+</span><span class="c1">------------------------+-------+</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="o">|</span><span class="w"> </span><span class="n">Variable_name</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">+</span><span class="c1">------------------------+-------+</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">|</span><span class="w"> </span><span class="n">innodb_old_blocks_time</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">1000</span><span class="w">  </span><span class="o">|</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="o">+</span><span class="c1">------------------------+-------+</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="mi">1</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<p>InnoDB存储引擎的LRU列表，结构如下：</p>
 <p><img alt="" src="../img/InnoDB_LRU.png" /></p>
-<h5 id="311_1">3.1.1 具体实现<a class="headerlink" href="#311_1" title="Permanent link">&para;</a></h5>
-<p>在InnoDB中，LRU算法加入了midlepoint位置，新读取的页不是放在首部，而是放在midlepoint位置。默认配置下该位置位于列表的5/8处，由参数<code>innodb_old_blocks_pct</code>控制。其值默认为37（大约为3/8），在InnoDB中将midlepoint之前的部分称为<strong>new列表</strong>，之后的部分称为<strong>old列表</strong>。</p>
-<p>InnoDB还引入了另一个参数<code>innodb_old_blocks_time</code>，用来指定第一次访问页后的时间窗口（以毫秒为单位），在此期间可以访问该页而无需将其移动到 LRU 列表的前面（new列表末尾）。</p>
-<h5 id="312">3.1.2 原因<a class="headerlink" href="#312" title="Permanent link">&para;</a></h5>
-<p>直接将读取的页放到LRU列表首部，那么某些SQL可能会使缓冲池中的页被淘汰。常见的这类操作为索引或数据的扫描操作。他们需要访问表中的很多页，而这些页通常仅在这次查询中使用，并不是热点数据，如果将其放在首部会导致真正的热点数据被淘汰，当再次读取该页时，需要从磁盘读取。</p>
-<h4 id="32-free">3.2 Free列表<a class="headerlink" href="#32-free" title="Permanent link">&para;</a></h4>
+<h3 id="32">3.2 原因<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>InnoDB并没有采用严格的LRU算法，是为了解决<a href="../read_ahead/">预读</a>和全表扫描所带来的问题。</p>
+<ul>
+<li>预读</li>
+</ul>
+<p>预读本身是一个很好的机制，但是如果缓冲池容量不足且预读的大量页面没有使用到话，那么将预读的页面放到LRU的首部，就会导致真正热点的页被淘汰。所以引入midpoint，将新读取的数据放到midpoint位置，即使后续不再使用，也不会对缓冲池有较大的影响。</p>
+<ul>
+<li>全表扫描</li>
+</ul>
+<p>InnoDB中每次读取页中的一条记录，都算是对页面的一次访问，所以索引或数据的扫描操作，他们需要访问表中的很多页，并且会访问也中的很多条记录，这些页通常仅在这次查询中使用，并不是热点数据，那么即使新读取时将页放入midpoint位置，也会因为扫描操作而导致页被移动到了new sublist的头部。因此InnoDB引入<code>innodb_old_blocks_time</code>参数，新读取的页在规定的时间窗口内不会被移动到new sublist。</p>
+<h2 id="free">四、Free列表<a class="headerlink" href="#free" title="Permanent link">&para;</a></h2>
 <p>数据库刚启动时，LRU列表是空的，这时页都在Free列表中。当需要缓冲池中分页时，首先从Free列表中查找是否有可用的空闲页，若有则将该页从Free列表中删除，放到LRU列表中。否则，根据LRU算法，淘汰LRU列表尾部的页，将内存空间分配给新的页。</p>
-<h4 id="33-flush">3.3 Flush列表<a class="headerlink" href="#33-flush" title="Permanent link">&para;</a></h4>
+<p>不是使用严格的LRU算法，<code>InnoDB</code>而是使用一种技术来最小化带入 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_buffer_pool">缓冲池</a>且不再被访问的数据量。目标是确保频繁访问的（“热”）页保留在缓冲池中，即使<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_read_ahead">预读</a>和 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_full_table_scan">全表扫描</a> 引入了以后可能会或可能不会访问的新块。</p>
+<h2 id="flush">五、Flush列表<a class="headerlink" href="#flush" title="Permanent link">&para;</a></h2>
 <p>当LRU列表中的页被修改后称为<strong>脏页</strong>，会将页放到Flush列表，需要注意的是脏页即存在于LRU列表，也存在与Flush列表。LRU列表用来管理缓冲池中页的可用性，Flush列表用来将脏页刷新回磁盘，二者互不影响。之后InnoDB会通过checkpoint机制将脏页刷新会磁盘。</p>
-<h4 id="34-checkpoint">3.4 Checkpoint机制<a class="headerlink" href="#34-checkpoint" title="Permanent link">&para;</a></h4>
+<h2 id="checkpoint">六、Checkpoint机制<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h2>
 <p>所谓的Checkpoint机制，是指一个触发点（时间点），当发生Checkpoint时，会将脏页（数据脏页和日志脏页）写回磁盘。</p>
-<h5 id="341-lsn">3.4.1 LSN<a class="headerlink" href="#341-lsn" title="Permanent link">&para;</a></h5>
+<h3 id="61-lsn">6.1 LSN<a class="headerlink" href="#61-lsn" title="Permanent link">&para;</a></h3>
 <p>LSN（Log Sequence Number）是日志空间中每条日志的结束点，用字节偏移量来表示。在 InnoDB 存储引擎中，LSN 占8个字节，LSN 的值会随着日志的写入而逐渐变大。除了重做日志，每个页（在每个数据页的头部 FILE_HEADER 部分，有一个 FIL_PAGE_LSN 记录了该数据页最后被修改的日志序列位置）以及 Checkpoint 也会被分配一个LSN，以便在需要时可以按照顺序进行检索和恢复。即 Checkpoint 是通过LSN实现，其由一个 LSN 表示，用来记录已经刷回磁盘的最新页的版本。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="n">innodb</span><span class="w"> </span><span class="n">status</span><span class="err">\</span><span class="k">G</span><span class="p">;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">***************************</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="o">***************************</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="k">Type</span><span class="p">:</span><span class="w"> </span><span class="n">InnoDB</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="n">Name</span><span class="p">:</span><span class="w"> </span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">Status</span><span class="p">:</span><span class="w"> </span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="o">=====================================</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span><span class="w"> </span><span class="mi">14</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">21</span><span class="w"> </span><span class="mi">140393160079104</span><span class="w"> </span><span class="n">INNODB</span><span class="w"> </span><span class="n">MONITOR</span><span class="w"> </span><span class="k">OUTPUT</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="o">=====================================</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">Per</span><span class="w"> </span><span class="k">second</span><span class="w"> </span><span class="n">averages</span><span class="w"> </span><span class="n">calculated</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="n">seconds</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1">---</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">LOG</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">---</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">Log</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="nb">number</span><span class="w">          </span><span class="mi">31820389</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">Log</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">    </span><span class="mi">31820389</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">Log</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">   </span><span class="mi">31820389</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">Log</span><span class="w"> </span><span class="n">written</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">            </span><span class="mi">31820389</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">Log</span><span class="w"> </span><span class="n">flushed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">            </span><span class="mi">31820389</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">Added</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="n">pages</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">      </span><span class="mi">31820389</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="n">Pages</span><span class="w"> </span><span class="n">flushed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">          </span><span class="mi">31820389</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="k">Last</span><span class="w"> </span><span class="k">checkpoint</span><span class="w"> </span><span class="k">at</span><span class="w">           </span><span class="mi">31820389</span>
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="n">Log</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">is</span><span class="w">       </span><span class="mi">9</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="n">Log</span><span class="w"> </span><span class="n">maximum</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">is</span><span class="w">       </span><span class="mi">9</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="mi">32</span><span class="w"> </span><span class="n">log</span><span class="w"> </span><span class="n">i</span><span class="o">/</span><span class="n">o</span><span class="s1">&#39;s done, 0.00 log i/o&#39;</span><span class="n">s</span><span class="o">/</span><span class="k">second</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="n">innodb</span><span class="w"> </span><span class="n">status</span><span class="err">\</span><span class="k">G</span><span class="p">;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">***************************</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="o">***************************</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="k">Type</span><span class="p">:</span><span class="w"> </span><span class="n">InnoDB</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="n">Name</span><span class="p">:</span><span class="w"> </span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">Status</span><span class="p">:</span><span class="w"> </span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="o">=====================================</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span><span class="w"> </span><span class="mi">14</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">21</span><span class="w"> </span><span class="mi">140393160079104</span><span class="w"> </span><span class="n">INNODB</span><span class="w"> </span><span class="n">MONITOR</span><span class="w"> </span><span class="k">OUTPUT</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="o">=====================================</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">Per</span><span class="w"> </span><span class="k">second</span><span class="w"> </span><span class="n">averages</span><span class="w"> </span><span class="n">calculated</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="n">seconds</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">---</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">LOG</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1">---</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">Log</span><span class="w"> </span><span class="n">sequence</span><span class="w"> </span><span class="nb">number</span><span class="w">          </span><span class="mi">31820389</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">Log</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">assigned</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">    </span><span class="mi">31820389</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">Log</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">   </span><span class="mi">31820389</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">Log</span><span class="w"> </span><span class="n">written</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">            </span><span class="mi">31820389</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="n">Log</span><span class="w"> </span><span class="n">flushed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">            </span><span class="mi">31820389</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="n">Added</span><span class="w"> </span><span class="n">dirty</span><span class="w"> </span><span class="n">pages</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">      </span><span class="mi">31820389</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="n">Pages</span><span class="w"> </span><span class="n">flushed</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">to</span><span class="w">          </span><span class="mi">31820389</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="k">Last</span><span class="w"> </span><span class="k">checkpoint</span><span class="w"> </span><span class="k">at</span><span class="w">           </span><span class="mi">31820389</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">Log</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">is</span><span class="w">       </span><span class="mi">9</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">Log</span><span class="w"> </span><span class="n">maximum</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">is</span><span class="w">       </span><span class="mi">9</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="mi">32</span><span class="w"> </span><span class="n">log</span><span class="w"> </span><span class="n">i</span><span class="o">/</span><span class="n">o</span><span class="s1">&#39;s done, 0.00 log i/o&#39;</span><span class="n">s</span><span class="o">/</span><span class="k">second</span>
 </code></pre></div>
-<h5 id="342-checkpoint">3.4.2 Checkpoint作用<a class="headerlink" href="#342-checkpoint" title="Permanent link">&para;</a></h5>
+<h3 id="62-checkpoint">6.2 Checkpoint作用<a class="headerlink" href="#62-checkpoint" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1591,7 +1582,7 @@
 </tr>
 </tbody>
 </table>
-<h5 id="343-checkpoint">3.4.3 Checkpoint分类<a class="headerlink" href="#343-checkpoint" title="Permanent link">&para;</a></h5>
+<h3 id="63-checkpoint">6.3 Checkpoint分类<a class="headerlink" href="#63-checkpoint" title="Permanent link">&para;</a></h3>
 <p>在InnoDB存储引擎中，Checkpoint发生的时间、条件及脏页的选择等都非常复杂。而Checkpoint所做的事情无外乎是将缓冲池中的脏页刷回到磁盘。不同之处在于每次刷新多少页到磁盘，每次从哪里取脏页，以及什么时间触发Checkpoint。</p>
 <p>在InnoDB存储引擎内部，有两Checkpoint，分别为：</p>
 <ul>
@@ -1628,6 +1619,15 @@
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>参考：</p>
+<p>[1] https://dev.mysql.com/doc/dev/mysql-server/latest/</p>
+<p>[2] https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</p>
+<p>[3] https://mp.weixin.qq.com/s/LQHcuDoQTdPmmjqnd6JeSg</p>
+<p>[4] http://mysql.taobao.org/monthly/2023/08/01/</p>
+<p>[5] https://juejin.cn/book/6844733769996304392/section/6844733770063429646</p>
+<p>[5] 《MySQL技术内幕-InnoDB存储引擎》</p>
+</blockquote>
 
 
 
@@ -1748,6 +1748,8 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
     
       <div class="md-consent" data-md-component="consent" id="__consent" hidden>
         <div class="md-consent__overlay"></div>
@@ -1823,7 +1825,7 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.top", "search.suggest", "search.highlight", "navigation.expand", "navigation.indexes", "search.share"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "search.highlight", "header.autohide"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>

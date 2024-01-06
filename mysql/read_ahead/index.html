@@ -10,26 +10,28 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/blog/2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/read_ahead/">
       
       
-        <link rel="prev" href="../../../01/06/%E8%B5%B0%E8%BF%9Brds%E4%B9%8Bmysql%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%AE%A1%E7%90%86%E4%B8%AD%E7%AF%87/">
+        <link rel="prev" href="../Buffer%20Pool/">
       
       
+        <link rel="next" href="../MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/">
       
-      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>Linux常用命令记录 - 欢迎光~~临</title>
+        <title>预读[TD] - 欢迎光~~临</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
       
         
-        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -84,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#linux" class="md-skip">
+        <a href="#innodb" class="md-skip">
           跳转至
         </a>
       
@@ -100,7 +102,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../../../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+    <a href="../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -120,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Linux常用命令记录
+              预读[TD]
             
           </span>
         </div>
@@ -226,23 +228,29 @@
         
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../../../mysql/InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
           
   
     
@@ -268,7 +276,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+        <a href="../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
           
   
     
@@ -288,7 +296,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../../../mkdocs" class="md-tabs__link">
+        <a href="../../mkdocs" class="md-tabs__link">
           
   
     
@@ -304,13 +312,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../blog/" class="md-tabs__link">
           
   
     
@@ -340,9 +346,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -353,7 +357,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="欢迎光~~临" class="md-nav__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+    <a href="../.." title="欢迎光~~临" class="md-nav__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -380,8 +384,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -394,14 +400,12 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
@@ -415,7 +419,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             数据库
@@ -426,8 +430,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -439,14 +445,12 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
@@ -460,7 +464,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_1">
             <span class="md-nav__icon md-icon"></span>
             MySQL
@@ -471,8 +475,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -486,14 +492,12 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
@@ -507,7 +511,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_1_1">
             <span class="md-nav__icon md-icon"></span>
             InnoDB
@@ -521,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../mysql/InnoDB%E6%A6%82%E8%BF%B0/" class="md-nav__link">
+      <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -542,7 +546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../mysql/Buffer%20Pool/" class="md-nav__link">
+      <a href="../Buffer%20Pool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -560,10 +564,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../../../mysql/read_ahead/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    预读[TD]
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -572,6 +594,33 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#innodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      配置InnoDB缓冲池预取（预读）
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -592,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../mysql/MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/" class="md-nav__link">
+      <a href="../MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -676,7 +725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+      <a href="../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -697,7 +746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
+      <a href="../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -771,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../mkdocs" class="md-nav__link">
+      <a href="../../mkdocs" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -796,8 +845,6 @@
       
   
   
-    
-  
   
   
     
@@ -818,17 +865,19 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../../" class="md-nav__link ">
+            <a href="../../blog/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -845,7 +894,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             博客
@@ -906,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../archive/2023/" class="md-nav__link">
+      <a href="../../blog/archive/2023/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -984,7 +1033,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/linux/" class="md-nav__link">
+      <a href="../../blog/category/linux/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1007,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/mysql/" class="md-nav__link">
+      <a href="../../blog/category/mysql/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1030,7 +1079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-nav__link">
+      <a href="../../blog/category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1067,8 +1116,6 @@
             
             
               
-                
-              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -1078,8 +1125,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1088,9 +1133,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sed" class="md-nav__link">
+  <a href="#innodb" class="md-nav__link">
     <span class="md-ellipsis">
-      一、sed命令
+      配置InnoDB缓冲池预取（预读）
     </span>
   </a>
   
@@ -1105,126 +1150,31 @@
             
           
           
-  <div class="md-content md-content--post" data-md-component="content">
-    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
-      <div class="md-sidebar__scrollwrap">
-        <div class="md-sidebar__inner md-post">
-          <nav class="md-nav md-nav--primary">
-            <div class="md-post__back">
-              <div class="md-nav__title md-nav__container">
-                <a href="../../../../" class="md-nav__link">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-                  <span class="md-ellipsis">
-                    回到主页
-                  </span>
-                </a>
-              </div>
-            </div>
-            
-              <div class="md-post__authors md-typeset">
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          陈伟平
-                        
-                      </strong>
-                      <br>
-                      作者
-                    </span>
-                  </div>
-                
-              </div>
-            
-            <ul class="md-post__meta md-nav__list">
-              <li class="md-nav__item md-nav__item--section">
-                <div class="md-post__title">
-                  <span class="md-ellipsis">
-                    元数据
-                  </span>
-                </div>
-                <nav class="md-nav">
-                  <ul class="md-nav__list">
-                    <li class="md-nav__item">
-                      <div class="md-nav__link">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg>
-                        <time datetime="2023-10-18 00:00:00" class="md-ellipsis">2023年10月18日</time>
-                      </div>
-                    </li>
-                    
-                    
-                      <li class="md-nav__item">
-                        <div class="md-nav__link">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3H9m3 2 4 13 3-1-4-13-3 1M5 5v13h3V5H5M3 19v2h18v-2H3Z"/></svg>
-                          <span class="md-ellipsis">
-                            分类于
-                            
-                              <a href="../../../../category/linux/">Linux</a></span>
-                        </div>
-                      </li>
-                    
-                    
-                      
-                      <li class="md-nav__item">
-                        <div class="md-nav__link">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg>
-                          <span class="md-ellipsis">
-                            
-                              需要 1 分钟阅读时间
-                            
-                          </span>
-                        </div>
-                      </li>
-                    
-                  </ul>
-                </nav>
-              </li>
-            </ul>
-          </nav>
-          
-        </div>
-      </div>
-    </div>
-    <article class="md-content__inner md-typeset">
-      
-        
+                  
 
   
   
 
 
-<!-- more -->
+  <h1>预读[TD]</h1>
 
-<h1 id="linux">Linux常用命令记录<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h1>
-<h2 id="sed">一、sed命令<a class="headerlink" href="#sed" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 对每行匹配到的第一个字符串进行替换</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/原字符串/新字符串/&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 对全局匹配上的所有字符串进行替换</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/原字符串/新字符串/g&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># 删除所有匹配到字符串的行</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/匹配字符串/d&#39;</span><span class="w">  </span>ab.txt<span class="w">  </span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># 特定字符串的行后插入新行</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/特定字符串/a 新行字符串&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># 特定字符串的行前插入新行</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/特定字符串/i 新行字符串&#39;</span><span class="w"> </span>ab.txt
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># 把匹配行中的某个字符串替换为目标字符串</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/匹配字符串/s/源字符串/目标字符串/g&#39;</span><span class="w"> </span>ab.txt
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1"># 在文件ab.txt中的末行之后，添加bye</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;$a bye&#39;</span><span class="w"> </span>ab.txt<span class="w">   </span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1"># 对于文件第3行，把匹配上的所有字符串进行替换</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;3s/原字符串/新字符串/g&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-</code></pre></div>
+<h4 id="innodb">配置InnoDB缓冲池预取（预读）<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h4>
+<p>预<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_read_ahead">读请求是异步预取</a><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_buffer_pool">缓冲池中</a>的多个页面的 I/O 请求 ，以预测即将需要这些页面。这些请求将所有页面引入某一 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_extent">范围</a>内。 <code>InnoDB</code>使用两种预读算法来提高 I/O 性能：</p>
+<p><strong>线性</strong>预读是一种根据缓冲池中按顺序访问的页面来预测可能很快需要哪些页面的技术。您可以<code>InnoDB</code>使用配置参数 调整触发异步读取请求所需的顺序页面访问次数来控制何时执行预读操作 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>。在添加该参数之前，<code>InnoDB</code>只会在读取当前extent的最后一页时才计算是否对整个下一个extent发出异步预取请求。</p>
+<p>配置参数 控制检测顺序页面访问模式的<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a> 敏感度。<code>InnoDB</code>如果从一个盘区顺序读取的页数大于或等于 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>， <code>InnoDB</code>则启动整个后续盘区的异步预读操作。 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>可以设置为 0-64 之间的任意值。默认值为 56。值越高，访问模式检查越严格。例如，如果将该值设置为48，<code>InnoDB</code> 则仅当当前盘区中的48页被顺序访问时才会触发线性预读请求。如果值为 8，<code>InnoDB</code>则即使顺序访问范围中的页数只有 8，也会触发异步预读。<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_configuration_file">您可以在MySQL配置文件</a>中设置该参数的值，或者使用语句动态更改它 <a href="https://dev.mysql.com/doc/refman/8.0/en/set-variable.html"><code>SET GLOBAL</code></a>，这需要足够的权限来设置全局系统变量。请参见 <a href="https://dev.mysql.com/doc/refman/8.0/en/system-variable-privileges.html">第 5.1.9.1 节“系统变量权限”</a>。</p>
+<p><strong>随机</strong>预读是一种根据缓冲池中已有的页面来预测何时可能很快需要页面的技术，而不管这些页面的读取顺序如何。如果在缓冲池中找到来自同一盘区的 13 个连续页面， <code>InnoDB</code>则异步发出请求以预取该盘区的剩余页面。要启用此功能，请将配置变量设置 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_random_read_ahead"><code>innodb_random_read_ahead</code></a>为 <code>ON</code>。</p>
+<p>该<code>SHOW ENGINE INNODB STATUS</code>命令显示统计信息以帮助您评估预读算法的有效性。统计信息包括以下全局状态变量的计数器信息：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead"><code>Innodb_buffer_pool_read_ahead</code></a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead_evicted"><code>Innodb_buffer_pool_read_ahead_evicted</code></a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead_rnd"><code>Innodb_buffer_pool_read_ahead_rnd</code></a></li>
+</ul>
+<p>此信息在微调设置时非常有用 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_random_read_ahead"><code>innodb_random_read_ahead</code></a> 。</p>
+
+
 
 
 
@@ -1233,14 +1183,7 @@
 
 
   
-  
 
-
-
-  
-
-
-  
 
 
   <form class="md-feedback" name="feedback" hidden>
@@ -1284,10 +1227,10 @@
   </form>
 
 
-      
-    </article>
-  </div>
-
+                
+              </article>
+            </div>
+          
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
@@ -1427,10 +1370,10 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "search.highlight", "header.autohide"], "search": "../../../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "search.highlight", "header.autohide"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
       
     
   </body>
