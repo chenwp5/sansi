@@ -16,7 +16,7 @@
         <link rel="prev" href="../Buffer%20Pool/">
       
       
-        <link rel="next" href="../MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/">
+        <link rel="next" href="../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>预读[TD] - 欢迎光~~临</title>
+        <title>预读 - 欢迎光~~临</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#innodb" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              预读[TD]
+              预读
             
           </span>
         </div>
@@ -439,8 +439,6 @@
       
         
       
-        
-      
     
     
     
@@ -573,53 +571,18 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    预读[TD]
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    预读[TD]
+    预读
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#innodb" class="md-nav__link">
-    <span class="md-ellipsis">
-      配置InnoDB缓冲池预取（预读）
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -629,27 +592,6 @@
           </ul>
         </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../MySQL%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    MySQL技术规范
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1125,23 +1067,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#innodb" class="md-nav__link">
-    <span class="md-ellipsis">
-      配置InnoDB缓冲池预取（预读）
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -1159,20 +1086,19 @@
   
 
 
-  <h1>预读[TD]</h1>
-
-<h4 id="innodb">配置InnoDB缓冲池预取（预读）<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h4>
-<p>预<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_read_ahead">读请求是异步预取</a><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_buffer_pool">缓冲池中</a>的多个页面的 I/O 请求 ，以预测即将需要这些页面。这些请求将所有页面引入某一 <a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_extent">范围</a>内。 <code>InnoDB</code>使用两种预读算法来提高 I/O 性能：</p>
-<p><strong>线性</strong>预读是一种根据缓冲池中按顺序访问的页面来预测可能很快需要哪些页面的技术。您可以<code>InnoDB</code>使用配置参数 调整触发异步读取请求所需的顺序页面访问次数来控制何时执行预读操作 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>。在添加该参数之前，<code>InnoDB</code>只会在读取当前extent的最后一页时才计算是否对整个下一个extent发出异步预取请求。</p>
-<p>配置参数 控制检测顺序页面访问模式的<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a> 敏感度。<code>InnoDB</code>如果从一个盘区顺序读取的页数大于或等于 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>， <code>InnoDB</code>则启动整个后续盘区的异步预读操作。 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_read_ahead_threshold"><code>innodb_read_ahead_threshold</code></a>可以设置为 0-64 之间的任意值。默认值为 56。值越高，访问模式检查越严格。例如，如果将该值设置为48，<code>InnoDB</code> 则仅当当前盘区中的48页被顺序访问时才会触发线性预读请求。如果值为 8，<code>InnoDB</code>则即使顺序访问范围中的页数只有 8，也会触发异步预读。<a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_configuration_file">您可以在MySQL配置文件</a>中设置该参数的值，或者使用语句动态更改它 <a href="https://dev.mysql.com/doc/refman/8.0/en/set-variable.html"><code>SET GLOBAL</code></a>，这需要足够的权限来设置全局系统变量。请参见 <a href="https://dev.mysql.com/doc/refman/8.0/en/system-variable-privileges.html">第 5.1.9.1 节“系统变量权限”</a>。</p>
-<p><strong>随机</strong>预读是一种根据缓冲池中已有的页面来预测何时可能很快需要页面的技术，而不管这些页面的读取顺序如何。如果在缓冲池中找到来自同一盘区的 13 个连续页面， <code>InnoDB</code>则异步发出请求以预取该盘区的剩余页面。要启用此功能，请将配置变量设置 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_random_read_ahead"><code>innodb_random_read_ahead</code></a>为 <code>ON</code>。</p>
-<p>该<code>SHOW ENGINE INNODB STATUS</code>命令显示统计信息以帮助您评估预读算法的有效性。统计信息包括以下全局状态变量的计数器信息：</p>
+<h1 id="_1">预读<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>读取预取请求是一种异步的I/O请求，用于在预期即将需要这些页面时，将多个页面提前加载到缓冲池中。这些请求会一次性获取一个区段中的所有页面。InnoDB使用两种读取预取算法来提高I/O性能：</p>
 <ul>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead"><code>Innodb_buffer_pool_read_ahead</code></a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead_evicted"><code>Innodb_buffer_pool_read_ahead_evicted</code></a></li>
-<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-status-variables.html#statvar_Innodb_buffer_pool_read_ahead_rnd"><code>Innodb_buffer_pool_read_ahead_rnd</code></a></li>
+<li>线性读取预取是一种预测哪些页面可能很快被需要的技巧，基于缓冲池中按顺序访问的页面。您可以通过调整触发异步读取请求所需的连续页面访问次数来控制InnoDB何时执行读取预取操作，使用配置参数<code>innodb_read_ahead_threshold</code>。</li>
+<li>随机读取预取是一种预测页面可能很快被需要的技巧，基于缓冲池中已经存在的页面，而不考虑这些页面的读取顺序。如果缓冲池中有来自同一区段的13个连续页面，InnoDB将异步发出请求，预取该区段中剩余的页面。要启用此功能，请将配置变量<code>innodb_random_read_ahead</code>设置为ON。</li>
 </ul>
-<p>此信息在微调设置时非常有用 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_random_read_ahead"><code>innodb_random_read_ahead</code></a> 。</p>
+<p><code>SHOW ENGINE INNODB STATUS</code>命令会显示统计信息，以帮助您评估读取预取算法的有效性。这些统计信息包括以下全局状态变量的计数器信息：</p>
+<ul>
+<li><code>Innodb_buffer_pool_read_ahead</code></li>
+<li><code>Innodb_buffer_pool_read_ahead_evicted</code></li>
+<li><code>Innodb_buffer_pool_read_ahead_rnd</code></li>
+</ul>
+<p>这些信息在微调<code>innodb_random_read_ahead</code>设置时非常有用。</p>
 
 
 
