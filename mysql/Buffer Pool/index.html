@@ -726,37 +726,37 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-checkpoint" class="md-nav__link">
+  <a href="#36-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5 Checkpoint机制
+      3.6 Checkpoint机制
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.5 Checkpoint机制">
+    <nav class="md-nav" aria-label="3.6 Checkpoint机制">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#351-lsn" class="md-nav__link">
+  <a href="#361-lsn" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.1 LSN
+      3.6.1 LSN
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#352-checkpoint" class="md-nav__link">
+  <a href="#362-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.2 Checkpoint作用
+      3.6.2 Checkpoint作用
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#353-checkpoint" class="md-nav__link">
+  <a href="#363-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.3 Checkpoint分类
+      3.6.3 Checkpoint分类
     </span>
   </a>
   
@@ -1435,37 +1435,37 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#35-checkpoint" class="md-nav__link">
+  <a href="#36-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5 Checkpoint机制
+      3.6 Checkpoint机制
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3.5 Checkpoint机制">
+    <nav class="md-nav" aria-label="3.6 Checkpoint机制">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#351-lsn" class="md-nav__link">
+  <a href="#361-lsn" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.1 LSN
+      3.6.1 LSN
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#352-checkpoint" class="md-nav__link">
+  <a href="#362-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.2 Checkpoint作用
+      3.6.2 Checkpoint作用
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#353-checkpoint" class="md-nav__link">
+  <a href="#363-checkpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      3.5.3 Checkpoint分类
+      3.6.3 Checkpoint分类
     </span>
   </a>
   
@@ -1653,9 +1653,9 @@
 <li>以该模式访问了100次</li>
 <li>页通过该模式访问了N次，其中N=页中记录*1/16</li>
 </ul>
-<h3 id="35-checkpoint">3.5 Checkpoint机制<a class="headerlink" href="#35-checkpoint" title="Permanent link">&para;</a></h3>
+<h3 id="36-checkpoint">3.6 Checkpoint机制<a class="headerlink" href="#36-checkpoint" title="Permanent link">&para;</a></h3>
 <p>所谓的Checkpoint机制，是指一个触发点（时间点），当发生Checkpoint时，会将脏页（数据脏页和日志脏页）写回磁盘。</p>
-<h4 id="351-lsn">3.5.1 LSN<a class="headerlink" href="#351-lsn" title="Permanent link">&para;</a></h4>
+<h4 id="361-lsn">3.6.1 LSN<a class="headerlink" href="#361-lsn" title="Permanent link">&para;</a></h4>
 <p>LSN（Log Sequence Number）是日志空间中每条日志的结束点，用字节偏移量来表示。在 InnoDB 存储引擎中，LSN 占8个字节，它的值会随着日志的写入而逐渐变大。除了重做日志，每个页（在每个数据页的头部 FILE_HEADER 部分，有一个 FIL_PAGE_LSN 记录了该数据页最后被修改的日志序列位置）以及 Checkpoint 也会被分配一个LSN，以便在需要时可以按照顺序进行检索和恢复。即 Checkpoint 是通过LSN实现，其由一个 LSN 表示，用来记录已经刷回磁盘的最新页的版本。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="n">innodb</span><span class="w"> </span><span class="n">status</span><span class="err">\</span><span class="k">G</span><span class="p">;</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">***************************</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="w"> </span><span class="k">row</span><span class="w"> </span><span class="o">***************************</span>
@@ -1681,7 +1681,7 @@
 <a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">Log</span><span class="w"> </span><span class="n">maximum</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">is</span><span class="w">       </span><span class="mi">9</span>
 <a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="mi">32</span><span class="w"> </span><span class="n">log</span><span class="w"> </span><span class="n">i</span><span class="o">/</span><span class="n">o</span><span class="s1">&#39;s done, 0.00 log i/o&#39;</span><span class="n">s</span><span class="o">/</span><span class="k">second</span>
 </code></pre></div>
-<h4 id="352-checkpoint">3.5.2 Checkpoint作用<a class="headerlink" href="#352-checkpoint" title="Permanent link">&para;</a></h4>
+<h4 id="362-checkpoint">3.6.2 Checkpoint作用<a class="headerlink" href="#362-checkpoint" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
@@ -1704,7 +1704,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="353-checkpoint">3.5.3 Checkpoint分类<a class="headerlink" href="#353-checkpoint" title="Permanent link">&para;</a></h4>
+<h4 id="363-checkpoint">3.6.3 Checkpoint分类<a class="headerlink" href="#363-checkpoint" title="Permanent link">&para;</a></h4>
 <p>在InnoDB存储引擎中，Checkpoint发生的时间、条件及脏页的选择等都非常复杂。而Checkpoint所做的事情无外乎是将缓冲池中的脏页刷回到磁盘。不同之处在于每次刷新多少页到磁盘，每次从哪里取脏页，以及什么时间触发Checkpoint。</p>
 <p>在InnoDB存储引擎内部，有两Checkpoint，分别为：</p>
 <ul>
