@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Buffer%20Pool/">
       
       
-        <link rel="prev" href="../InnoDB%E6%A6%82%E8%BF%B0/">
+        <link rel="prev" href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
       
       
         <link rel="next" href="../read_ahead/">
@@ -486,6 +486,8 @@
       
         
       
+        
+      
     
     
     
@@ -528,6 +530,27 @@
   
   <span class="md-ellipsis">
     版本及新特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB数据记录和页
   </span>
   
 
@@ -776,6 +799,48 @@
   <a href="#change-buffer" class="md-nav__link">
     <span class="md-ellipsis">
       四、Change Buffer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、Change Buffer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 生效条件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 相关变量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 合并情况
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
     </span>
   </a>
   
@@ -1488,6 +1553,48 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="四、Change Buffer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 生效条件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 相关变量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 合并情况
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -1743,8 +1850,61 @@
 </table>
 <h2 id="change-buffer">四、Change Buffer<a class="headerlink" href="#change-buffer" title="Permanent link">&para;</a></h2>
 <p>上面三个章节已经讲了Buffer Pool中关于优化查询的一系列操作。在Buffer Pool中还有一块内存，专门用来优化数据变更的效率，它就是<strong>Change Buffer</strong>。</p>
+<p>通常应用程序中行记录的插入顺序是按照主键递增的顺序进行插入的。因此，插入聚集索引（Primary Key）一般是顺序的，不需要磁盘的随机读取，故插入速度是非常快的。但表中不只有一个聚集索引，更多情况下，一张表上有多个非聚集的辅助索引。此时进行插入操作时，就需要离散地访问非聚集索引页，故导致插入性能下降。这是由B+树的特性导致的。</p>
+<p>故此，InnoDB引入了Change Buffer，对于非聚集索引的插入和更新操作，不是每次直接插入到索引页中，而是先判断插入的非聚集索引页是否在缓冲池中，若在，则直接插入；若不在，则先放到一个Change Buffer对象中，然后再以一定的频率和情况进行Change Buffer和非聚集索引页的merge操作。这时通常能将多个插入合并到一个操作中（因为在一个索引页中），这就大大提高了对于非聚集索引插入的性能。</p>
+<p>实际上Change Buffer是全局唯一的一颗B+树，缓冲所有对辅助索引的变更操作，具体保存在共享表空间中。</p>
+<h3 id="41">4.1 生效条件<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<ul>
+<li>索引是辅助索引</li>
+<li>索引不是唯一的</li>
+</ul>
+<p>辅助索引不能是唯一的，因为在插入Change Buffer时不会去查询索引页来判断插入的记录是否唯一。如果去查了就会发生离散的磁盘读取，那么Change Buffer就失去了意义。</p>
+<h3 id="42">4.2 相关变量<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<ul>
+<li>show engine innodb status</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">-------------------------------------</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="n">BUFFER</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">ADAPTIVE</span><span class="w"> </span><span class="n">HASH</span><span class="w"> </span><span class="k">INDEX</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1">-------------------------------------</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">Ibuf</span><span class="p">:</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">free</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">seg</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">merges</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">merged</span><span class="w"> </span><span class="n">operations</span><span class="p">:</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w"> </span><span class="k">insert</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">delete</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">delete</span><span class="w"> </span><span class="mi">0</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">discarded</span><span class="w"> </span><span class="n">operations</span><span class="p">:</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w"> </span><span class="k">insert</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">delete</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">delete</span><span class="w"> </span><span class="mi">0</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">Hash</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="mi">34679</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="n">heap</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="mi">0</span><span class="p">.</span><span class="mi">14</span><span class="w"> </span><span class="n">hash</span><span class="w"> </span><span class="n">searches</span><span class="o">/</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">hash</span><span class="w"> </span><span class="n">searches</span><span class="o">/</span><span class="n">s</span>
+</code></pre></div>
+<p>seg size显示了当前Insert Buffer的大小为2×16KB，大约为177MB；free list len代表了空闲列表的长度；size代表了已经合并记录页的数量。</p>
+<ul>
+<li>innodb_change_buffer_max_size</li>
+</ul>
+<p>控制Change Buffer占Buffer Pool的比例。默认25，最大50。</p>
+<ul>
+<li>innodb_change_buffering </li>
+</ul>
+<p>控制change buffer对哪些DML起作用，可选参数：all（insert、delete、update）、none（不缓存任何操纵）、inserts、deletes、purges</p>
+<h3 id="43">4.3 合并情况<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<ul>
+<li>辅助索引页被读取到缓冲池</li>
+</ul>
+<p>当辅助索引页被读取到缓冲池中时，需要检查Insert Buffer Bitmap页 ，确认是否有该辅助索引页的记录保存在Insert Buffer B+树中。若有，则需要将该页的所有记录插入到辅助索引页中，此处辅助索引页的数据才为最新数据。同时可以发现，我们对辅助索引页的多次插入操作通过一个操作合并到了辅助索引页中。</p>
+<ul>
+<li>辅助索引页无可用空间</li>
+</ul>
+<p>当记录插入Insert Buffer B+树时发现对应的辅助索引页的可用空间小于1/32，此时会强制进行一次合并操作，即读取辅助索引页，将Insert Buffer B+树中该页的所有记录都合并到辅助索引页中。</p>
+<ul>
+<li>Master Thread</li>
+</ul>
+<p>Master Thread每秒或每十秒会进行一次合并操作，不同之处在于合并的数量不同。</p>
+<h2 id="_4">参考<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <blockquote>
-<p>参考：</p>
 <p>[1] https://dev.mysql.com/doc/dev/mysql-server/latest/</p>
 <p>[2] https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html</p>
 <p>[3] https://mp.weixin.qq.com/s/LQHcuDoQTdPmmjqnd6JeSg</p>
@@ -1829,7 +1989,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2023陈伟平
+      Copyright &copy; 2023-2024陈伟平
     </div>
   
   

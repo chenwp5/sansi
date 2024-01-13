@@ -10,26 +10,28 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/blog/archive/2023/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
       
       
-        <link rel="prev" href="../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/">
+        <link rel="prev" href="../InnoDB%E6%A6%82%E8%BF%B0/">
       
       
+        <link rel="next" href="../Buffer%20Pool/">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>2023 - 欢迎光~~临</title>
+        <title>InnoDB数据记录和页 - 欢迎光~~临</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -84,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2023" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -100,7 +102,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+    <a href="../.." title="欢迎光~~临" class="md-header__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -120,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2023
+              InnoDB数据记录和页
             
           </span>
         </div>
@@ -226,23 +228,29 @@
         
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
       
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../mysql/InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
           
   
     
@@ -268,7 +276,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
+        <a href="../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-tabs__link">
           
   
     
@@ -288,7 +296,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../mkdocs" class="md-tabs__link">
+        <a href="../../mkdocs" class="md-tabs__link">
           
   
     
@@ -304,13 +312,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../blog/" class="md-tabs__link">
           
   
     
@@ -351,7 +357,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="欢迎光~~临" class="md-nav__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
+    <a href="../.." title="欢迎光~~临" class="md-nav__button md-logo" aria-label="欢迎光~~临" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -378,8 +384,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -392,14 +400,12 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
@@ -413,7 +419,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             数据库
@@ -424,8 +430,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -435,14 +443,12 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
@@ -456,7 +462,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_1">
             <span class="md-nav__icon md-icon"></span>
             MySQL
@@ -467,8 +473,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -484,14 +492,12 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
@@ -505,7 +511,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1_1_1">
             <span class="md-nav__icon md-icon"></span>
             InnoDB
@@ -519,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mysql/InnoDB%E6%A6%82%E8%BF%B0/" class="md-nav__link">
+      <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -537,10 +543,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../mysql/Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    InnoDB数据记录和页
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -549,6 +573,150 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、记录格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、记录格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-compact" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Compact
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Compact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.1 变长字段长度列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.2 NULL值列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.3 记录头信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.4 真实数据
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-dynamiccompressed" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Dynamic和Compressed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、页格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、页格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-file-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 File Header
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-user-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 User Records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-page-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 Page Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -561,7 +729,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mysql/Buffer%20Pool/" class="md-nav__link">
+      <a href="../Buffer%20Pool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -582,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mysql/read_ahead/" class="md-nav__link">
+      <a href="../read_ahead/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -674,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+      <a href="../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -695,7 +863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
+      <a href="../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -769,7 +937,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../mkdocs" class="md-nav__link">
+      <a href="../../mkdocs" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -794,8 +962,6 @@
       
   
   
-    
-  
   
   
     
@@ -816,17 +982,19 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../blog/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -843,7 +1011,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             博客
@@ -856,8 +1024,6 @@
                 
   
   
-    
-  
   
   
     
@@ -869,12 +1035,14 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
         
           
           <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
@@ -888,7 +1056,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_2">
             <span class="md-nav__icon md-icon"></span>
             归档
@@ -899,23 +1067,12 @@
                 
   
   
-    
-  
   
     
-      
-    
   
   
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2023/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -924,7 +1081,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -994,7 +1150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../category/linux/" class="md-nav__link">
+      <a href="../../blog/category/linux/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1017,7 +1173,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../category/mysql/" class="md-nav__link">
+      <a href="../../blog/category/mysql/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1040,7 +1196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-nav__link">
+      <a href="../../blog/category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1086,8 +1242,140 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、记录格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、记录格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-compact" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Compact
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Compact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.1 变长字段长度列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.2 NULL值列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.3 记录头信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.4 真实数据
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-dynamiccompressed" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Dynamic和Compressed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、页格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、页格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-file-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 File Header
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-user-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 User Records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-page-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 Page Directory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1096,221 +1384,261 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="2023">2023<a class="headerlink" href="#2023" title="Permanent link">&para;</a></h1>
-      </header>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2023-10-18 00:00:00">2023年10月18日</time></li>
-        
-          <li class="md-meta__item">
-            分类于
-            
-              <a href="../../category/linux/" class="md-meta__link">Linux</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              需要 1 分钟阅读时间
-            
-          </li>
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="linux"><a class="toclink" href="../../2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">Linux常用命令记录</a></h2>
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
 
-    <nav class="md-post__action">
-      <a href="../../2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
-        继续阅读
-      </a>
-    </nav>
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2023-01-06 00:00:00">2023年1月6日</time></li>
-        
-          <li class="md-meta__item">
-            分类于
-            
-              <a href="../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-meta__link">精选文章</a>, 
-              <a href="../../category/mysql/" class="md-meta__link">MySQL</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              需要 1 分钟阅读时间
-            
-          </li>
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="rdsmysql"><a class="toclink" href="../../2023/01/06/%E8%B5%B0%E8%BF%9Brds%E4%B9%8Bmysql%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%AE%A1%E7%90%86%E4%B8%AD%E7%AF%87/">【走进RDS】之MySQL内存分配与管理（中篇）</a></h2>
-<blockquote>
-<p>作者：宋华雄（桦雄）</p>
-<p>简述：主要介绍InnoDB的内存构成和使用，有源码层面的逻辑说明，基于8.0.25版本。</p>
-<p>原文链接：https://mp.weixin.qq.com/s/LQHcuDoQTdPmmjqnd6JeSg</p>
-</blockquote>
-
-    <nav class="md-post__action">
-      <a href="../../2023/01/06/%E8%B5%B0%E8%BF%9Brds%E4%B9%8Bmysql%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%AE%A1%E7%90%86%E4%B8%AD%E7%AF%87/">
-        继续阅读
-      </a>
-    </nav>
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2023-01-04 00:00:00">2023年1月4日</time></li>
-        
-          <li class="md-meta__item">
-            分类于
-            
-              <a href="../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-meta__link">精选文章</a>, 
-              <a href="../../category/mysql/" class="md-meta__link">MySQL</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              需要 6 分钟阅读时间
-            
-          </li>
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="innodbbuffer-pool"><a class="toclink" href="../../2023/01/04/%E5%BA%96%E4%B8%81%E8%A7%A3innodb%E4%B9%8Bbuffer-pool/">庖丁解InnoDB之Buffer Pool</a></h2>
-<blockquote>
-<p>作者：王康</p>
-<p>github：github.com/CatKang</p>
-<p>简述：介绍MySQL8.0版本Buffer Pool的核心功能</p>
-<p>原文链接：http://mysql.taobao.org/monthly/2023/08/01/</p>
-</blockquote>
-
-    <nav class="md-post__action">
-      <a href="../../2023/01/04/%E5%BA%96%E4%B8%81%E8%A7%A3innodb%E4%B9%8Bbuffer-pool/">
-        继续阅读
-      </a>
-    </nav>
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2023-01-04 00:00:00">2023年1月4日</time></li>
-        
-          <li class="md-meta__item">
-            分类于
-            
-              <a href="../../category/%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0/" class="md-meta__link">精选文章</a>, 
-              <a href="../../category/mysql/" class="md-meta__link">MySQL</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              需要 6 分钟阅读时间
-            
-          </li>
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="cpuinnodbbuffer-pool"><a class="toclink" href="../../2023/01/04/%E8%B0%83%E8%8A%82%E7%A3%81%E7%9B%98%E5%92%8Ccpu%E7%9A%84%E7%9F%9B%E7%9B%BEinnodb%E7%9A%84buffer-pool/">调节磁盘和CPU的矛盾——InnoDB的Buffer Pool</a></h2>
-<blockquote>
-<p>作者：小孩子</p>
-<p>简述：介绍MySQL5.7版本的缓冲池，原文是收费的，有能力的可以支持一下！</p>
-<p>原文链接：https://juejin.cn/book/6844733769996304392/section/6844733770063429646</p>
-</blockquote>
-
-    <nav class="md-post__action">
-      <a href="../../2023/01/04/%E8%B0%83%E8%8A%82%E7%A3%81%E7%9B%98%E5%92%8Ccpu%E7%9A%84%E7%9F%9B%E7%9B%BEinnodb%E7%9A%84buffer-pool/">
-        继续阅读
-      </a>
-    </nav>
-  </div>
-</article>
-      
-      
-        
-          
-
-
-
-<nav class="md-pagination">
   
-</nav>
-        
-      
-    </div>
-  </div>
+  
 
+
+  <h1>InnoDB数据记录和页</h1>
+
+<h2 id="_1">一、概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>InnoDB将磁盘中的数据划分为若干个页，默认大小为16K，每次从磁盘以页为最小单位读取数据。而数据记录则保存在页中，InnoDB规定每页最少保存两条记录。当记录中的数据太多，当前页放不下的时候，会把多余的数据存储到其他页中，这种现象称为<code>行溢出</code>。</p>
+<h2 id="_2">二、记录格式<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>InnoDB目前提供四种格式：Compact、Redundant、Dynamic和Compressed。</p>
+<ul>
+<li>
+<p>Redundant是MySQL5.0版本之前一种非紧凑的行格式，现在基本没人用了。</p>
+</li>
+<li>
+<p>Compact是MySQL5.0之后引入的一种紧凑的行格式，为了让一个数据页中可以存放更多的行记录</p>
+</li>
+<li>
+<p>Dynamic和Compressed两个都是紧凑的行格式，它们的行格式都和Compact差不多，因为都是基于Compact改进一点东西。从MySQL5.7版本之后，默认使用Dynamic行格式。</p>
+</li>
+</ul>
+<h3 id="21-compact">2.1 Compact<a class="headerlink" href="#21-compact" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../img/compact_structure.png" /></p>
+<h4 id="221">2.2.1 变长字段长度列表<a class="headerlink" href="#221" title="Permanent link">&para;</a></h4>
+<p>我们知道<code>MySQL</code>支持一些变长的数据类型，比如<code>VARCHAR(M)</code>、<code>VARBINARY(M)</code>、各种<code>TEXT</code>类型，各种<code>BLOB</code>类型，我们也可以把拥有这些数据类型的列称为<code>变长字段</code>，变长字段中存储多少字节的数据是不固定的，所以我们在存储真实数据的时候需要顺便把这些数据占用的字节数也存起来，这样才不至于把<code>MySQL</code>服务器搞懵，所以这些变长字段占用的存储空间分为两部分：</p>
+<ol>
+<li>真正的数据内容（保存在<code>真实数据</code>）</li>
+<li>占用的字节数（保存在<code>变长字段列表</code>）</li>
+</ol>
+<p>在<code>Compact</code>行格式中，把所有变长字段的真实数据占用的字节长度都存放在记录的开头部位，从而形成一个变长字段长度列表，各变长字段数据占用的字节数以16进制格式按照列的顺序逆序存放，逆序存放！</p>
+<h4 id="222-null">2.2.2 NULL值列表<a class="headerlink" href="#222-null" title="Permanent link">&para;</a></h4>
+<p>我们知道表中的某些列可能存储<code>NULL</code>值，如果把这些<code>NULL</code>值都放到<code>记录的真实数据</code>中存储会很占地方，所以<code>Compact</code>行格式把这些值为<code>NULL</code>的列统一管理起来，存储到<code>NULL</code>值列表中。</p>
+<h4 id="223">2.2.3 记录头信息<a class="headerlink" href="#223" title="Permanent link">&para;</a></h4>
+<p>除了<code>变长字段长度列表</code>、<code>NULL值列表</code>之外，还有一个用于描述记录的<code>记录头信息</code>，它是由固定的<code>5</code>个字节组成。<code>5</code>个字节也就是<code>40</code>个二进制位，不同的位代表不同的意思，如图：</p>
+<p><img alt="" src="../img/record_head.png" /></p>
+<p>这些二进制位代表的详细信息如下表：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>大小（单位：bit）</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>预留位1</code></td>
+<td><code>1</code></td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td><code>预留位2</code></td>
+<td><code>1</code></td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td><code>delete_mask</code></td>
+<td><code>1</code></td>
+<td>标记该记录是否被删除</td>
+</tr>
+<tr>
+<td><code>min_rec_mask</code></td>
+<td><code>1</code></td>
+<td>B+树的每层非叶子节点中的最小记录都会添加该标记</td>
+</tr>
+<tr>
+<td><code>n_owned</code></td>
+<td><code>4</code></td>
+<td>表示当前记录拥有的记录数</td>
+</tr>
+<tr>
+<td><code>heap_no</code></td>
+<td><code>13</code></td>
+<td>表示当前记录在记录堆的位置信息</td>
+</tr>
+<tr>
+<td><code>record_type</code></td>
+<td><code>3</code></td>
+<td>表示当前记录的类型，<code>0</code>表示普通记录，<code>1</code>表示B+树非叶子节点记录，<code>2</code>表示最小记录，<code>3</code>表示最大记录</td>
+</tr>
+<tr>
+<td><code>next_record</code></td>
+<td><code>16</code></td>
+<td>表示下一条记录的相对位置</td>
+</tr>
+</tbody>
+</table>
+<h4 id="224">2.2.4 真实数据<a class="headerlink" href="#224" title="Permanent link">&para;</a></h4>
+<p>记录的真实数据我们自己定义的列的数据以外，<code>MySQL</code>会为每个记录默认的添加一些列（也称为<code>隐藏列</code>），具体的列如下：</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>是否必须</th>
+<th>占用空间</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>row_id</code></td>
+<td>否</td>
+<td><code>6</code>字节</td>
+<td>行ID，唯一标识一条记录</td>
+</tr>
+<tr>
+<td><code>transaction_id</code></td>
+<td>是</td>
+<td><code>6</code>字节</td>
+<td>事务ID</td>
+</tr>
+<tr>
+<td><code>roll_pointer</code></td>
+<td>是</td>
+<td><code>7</code>字节</td>
+<td>回滚指针</td>
+</tr>
+</tbody>
+</table>
+<p>现在看一下加上<code>记录的真实数据</code>的两个记录长什么样吧：</p>
+<p><img alt="" src="../img/record.png" /></p>
+<h3 id="22-dynamiccompressed">2.2 Dynamic和Compressed<a class="headerlink" href="#22-dynamiccompressed" title="Permanent link">&para;</a></h3>
+<p>这两种行格式类似于<code>COMPACT行格式</code>，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
+<p>另外，<code>Compressed</code>行格式会采用压缩算法对页面进行压缩。</p>
+<h2 id="_3">三、页格式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>一个<code>InnoDB</code>数据页的存储空间大致被划分成了<code>7</code>个部分，有的部分占用的字节数是确定的，有的部分占用的字节数是不确定的。如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>中文名</th>
+<th>占用空间大小</th>
+<th>简单描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>File Header</code></td>
+<td>文件头部</td>
+<td><code>38</code>字节</td>
+<td>页的一些通用信息</td>
+</tr>
+<tr>
+<td><code>Page Header</code></td>
+<td>页面头部</td>
+<td><code>56</code>字节</td>
+<td>数据页专有的一些信息</td>
+</tr>
+<tr>
+<td><code>Infimum + Supremum</code></td>
+<td>最小记录和最大记录</td>
+<td><code>26</code>字节</td>
+<td>两个虚拟的行记录</td>
+</tr>
+<tr>
+<td><code>User Records</code></td>
+<td>用户记录</td>
+<td>不确定</td>
+<td>实际存储的行记录内容</td>
+</tr>
+<tr>
+<td><code>Free Space</code></td>
+<td>空闲空间</td>
+<td>不确定</td>
+<td>页中尚未使用的空间</td>
+</tr>
+<tr>
+<td><code>Page Directory</code></td>
+<td>页面目录</td>
+<td>不确定</td>
+<td>页中的某些记录的相对位置</td>
+</tr>
+<tr>
+<td><code>File Trailer</code></td>
+<td>文件尾部</td>
+<td><code>8</code>字节</td>
+<td>校验页是否完整</td>
+</tr>
+</tbody>
+</table>
+<p>page页结构图如下所示：</p>
+<p><img alt="" src="../img/page.png" /></p>
+<h3 id="31-file-header">3.1 File Header<a class="headerlink" href="#31-file-header" title="Permanent link">&para;</a></h3>
+<p>缓冲池中页是通过双向链表来管理的，具体实现就是在<code>File Header</code>中保存了上一个page和下一个page页的页号。</p>
+<h3 id="32-user-records">3.2 User Records<a class="headerlink" href="#32-user-records" title="Permanent link">&para;</a></h3>
+<p>保存真实的数据记录，通过单链表管理。</p>
+<h3 id="33-page-directory">3.3 Page Directory<a class="headerlink" href="#33-page-directory" title="Permanent link">&para;</a></h3>
+<p><code>InnoDB</code>会把页中的记录划分为若干个组，每个组的最后一个记录的地址偏移量作为一个<code>槽</code>，存放在<code>Page Directory</code>中，所以在一个页中根据主键查找记录是非常快的，分为两步：</p>
+<ul>
+<li>通过二分法确定该记录所在的槽。</li>
+<li>通过记录的next_record属性遍历该槽所在的组中的各个记录。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        此页面是否对你有帮助吗？
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35Z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5 3 7M16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3Z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              谢谢你的反馈！
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              谢谢你的反馈，如果发现什么问题请联系我，我会尽快回复您
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
@@ -1450,10 +1778,10 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "search.highlight", "header.autohide"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "search.highlight", "header.autohide"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
       
     
   </body>
