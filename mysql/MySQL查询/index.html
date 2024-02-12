@@ -10,13 +10,13 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/MySQL%E6%9F%A5%E8%AF%A2/">
       
       
-        <link rel="prev" href="../MySQL%E6%9F%A5%E8%AF%A2/">
+        <link rel="prev" href="../InnoDB%E6%A6%82%E8%BF%B0/">
       
       
-        <link rel="next" href="../Buffer%20Pool/">
+        <link rel="next" href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>InnoDB数据记录和页 - 欢迎光~~临</title>
+        <title>MySQL查询原理 - 欢迎光~~临</title>
       
     
     
@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#mysql" class="md-skip">
           跳转至
         </a>
       
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              InnoDB数据记录和页
+              MySQL查询原理
             
           </span>
         </div>
@@ -545,27 +545,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../MySQL%E6%9F%A5%E8%AF%A2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    MySQL查询原理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -575,12 +554,14 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   <span class="md-ellipsis">
-    InnoDB数据记录和页
+    MySQL查询原理
   </span>
   
 
@@ -591,7 +572,7 @@
         
   
   <span class="md-ellipsis">
-    InnoDB数据记录和页
+    MySQL查询原理
   </span>
   
 
@@ -603,6 +584,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -613,63 +596,132 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、概述
+      一、单表访问方法
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="一、单表访问方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ref" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 ref
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ref_or_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 ref_or_null
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 range
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.5 index
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.6 all
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      二、记录格式
+      二、表连接
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、记录格式">
+    <nav class="md-nav" aria-label="二、表连接">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-compact" class="md-nav__link">
+  <a href="#21" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 Compact
+      2.1 连接的本质
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2.1 Compact">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 内连接和外连接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 连接的原理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 连接的原理">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#221" class="md-nav__link">
+  <a href="#231-nested-loop-join" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.1 变长字段长度列表
+      2.3.1 Nested-Loop Join
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#222-null" class="md-nav__link">
+  <a href="#232" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.2 NULL值列表
+      2.3.2 使用索引加快连接速度
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#223" class="md-nav__link">
+  <a href="#233-block-nested-loop-join" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.3 记录头信息
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#224" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.4 真实数据
+      2.3.3 Block Nested-Loop Join
     </span>
   </a>
   
@@ -677,57 +729,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-dynamiccompressed" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Dynamic和Compressed
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、页格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、页格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-file-header" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 File Header
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-user-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 User Records
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-page-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Page Directory
-    </span>
-  </a>
   
 </li>
         
@@ -740,6 +741,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB数据记录和页
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1265,6 +1287,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1275,63 +1299,132 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、概述
+      一、单表访问方法
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="一、单表访问方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-ref" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 ref
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ref_or_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 ref_or_null
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.4 range
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.5 index
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.6 all
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      二、记录格式
+      二、表连接
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、记录格式">
+    <nav class="md-nav" aria-label="二、表连接">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-compact" class="md-nav__link">
+  <a href="#21" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 Compact
+      2.1 连接的本质
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2.1 Compact">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 内连接和外连接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 连接的原理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 连接的原理">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#221" class="md-nav__link">
+  <a href="#231-nested-loop-join" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.1 变长字段长度列表
+      2.3.1 Nested-Loop Join
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#222-null" class="md-nav__link">
+  <a href="#232" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.2 NULL值列表
+      2.3.2 使用索引加快连接速度
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#223" class="md-nav__link">
+  <a href="#233-block-nested-loop-join" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2.3 记录头信息
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#224" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.4 真实数据
+      2.3.3 Block Nested-Loop Join
     </span>
   </a>
   
@@ -1339,57 +1432,6 @@
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-dynamiccompressed" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Dynamic和Compressed
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、页格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、页格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-file-header" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 File Header
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-user-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 User Records
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-page-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Page Directory
-    </span>
-  </a>
   
 </li>
         
@@ -1416,194 +1458,97 @@
   
 
 
-  <h1>InnoDB数据记录和页</h1>
-
-<h2 id="_1">一、概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>InnoDB将磁盘中的数据划分为若干个页，默认大小为16K，每次从磁盘以页为最小单位读取数据。而数据记录则保存在页中，InnoDB规定每页最少保存两条记录。当记录中的数据太多，当前页放不下的时候，会把多余的数据存储到其他页中，这种现象称为<code>行溢出</code>。</p>
-<h2 id="_2">二、记录格式<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>InnoDB目前提供四种格式：Compact、Redundant、Dynamic和Compressed。</p>
+<h1 id="mysql">MySQL查询原理<a class="headerlink" href="#mysql" title="Permanent link">&para;</a></h1>
+<h2 id="_1">一、单表访问方法<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>MySQL执行查询语句的方式称之为<code>访问方法</code>或者<code>访问类型</code>。</p>
+<h3 id="11-const">1.1 const<a class="headerlink" href="#11-const" title="Permanent link">&para;</a></h3>
+<p>MySQL中把通过主键或者唯一二级索引列与常量的等值比较来定位一条记录的访问方法定义为：<code>const</code>，意思是常数级别的，代价是可以忽略不计的。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">;</span><span class="w"> </span><span class="o">//</span><span class="n">key为主键或唯一二级索引</span>
+</code></pre></div>
+<h3 id="12-ref">1.2 ref<a class="headerlink" href="#12-ref" title="Permanent link">&para;</a></h3>
+<p>MySQL中把通过普通二级索引列与常量的等值比较来定位记录的访问方法定义为：<code>ref</code>。因为普通二级索引叶子节点的数据不具有唯一性，所以可能找到多条对应的记录，然后再去回表。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;value&#39;</span><span class="p">;</span><span class="w"> </span><span class="o">//</span><span class="n">key1为普通二级索引</span>
+</code></pre></div>
+<h3 id="13-ref_or_null">1.3 ref_or_null<a class="headerlink" href="#13-ref_or_null" title="Permanent link">&para;</a></h3>
+<p>有时候我们不仅想找出某个二级索引列的值等于某个常数的记录，还想把该列的值为NULL的记录也找出来，就像下边这个查询：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<p>当使用二级索引而不是全表扫描的方式执行该查询时，这种类型的查询使用的访问方法就称为：<code>ref_or_null</code></p>
+<p><img alt="" src="../img/ref_or_null.png" /></p>
+<h3 id="14-range">1.4 range<a class="headerlink" href="#14-range" title="Permanent link">&para;</a></h3>
+<p>当搜索条件不只是要求索引列与常数的等值匹配，而是索引列需要匹配某个或某些范围的值时，例如</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">single_table</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">key2</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="mi">1438</span><span class="p">,</span><span class="w"> </span><span class="mi">6328</span><span class="p">)</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="p">(</span><span class="n">key2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">38</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">key2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">79</span><span class="p">);</span>
+</code></pre></div>
+<p>此事如果采用<code>二级索引 + 回表</code>的方式来查询的话，我们就把这种利用索引进行范围匹配的访问方法称之为：<code>range</code>。</p>
+<h3 id="15-index">1.5 index<a class="headerlink" href="#15-index" title="Permanent link">&para;</a></h3>
+<p>当查询列表中的字段和查询条件中的字段都包含于某个复合索引中时，MySQL只需要遍历二级索引记录即可，我们将这种执行方式称之为：<code>index</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">key_part1</span><span class="p">,</span><span class="w"> </span><span class="n">key_part2</span><span class="p">,</span><span class="w"> </span><span class="n">key_part3</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">single_table</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">key_part2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="16-all">1.6 all<a class="headerlink" href="#16-all" title="Permanent link">&para;</a></h3>
+<p>使用全表扫描执行查询的方式称之为：<code>all</code>。</p>
+<h2 id="_2">二、表连接<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 连接的本质<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><code>连接(JOIN)</code>的本质就是把各个连接表中的记录都取出来依次匹配的组合加入结果集并返回给用户。所以我们把t1和t2两个表连接起来的过程如下图所示：</p>
+<p><img alt="" src="../img/lianjie.png" /></p>
+<p>这个过程看起来就是把<code>t1</code>表的记录和<code>t2</code>的记录连起来组成新的更大的记录，所以这个查询过程称之为连接查询。连接查询的结果集中包含一个表中的每一条记录与另一个表中的每一条记录相互匹配的组合，像这样的结果集就可以称之为<code>笛卡尔积</code>。</p>
+<h3 id="22">2.2 内连接和外连接<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
-<p>Redundant是MySQL5.0版本之前一种非紧凑的行格式，现在基本没人用了。</p>
+<p>对于<code>内连接</code>的两个表，驱动表中的记录在被驱动表中找不到匹配的记录，该记录不会加入到最后的结果集。</p>
 </li>
 <li>
-<p>Compact是MySQL5.0之后引入的一种紧凑的行格式，为了让一个数据页中可以存放更多的行记录</p>
-</li>
-<li>
-<p>Dynamic和Compressed两个都是紧凑的行格式，它们的行格式都和Compact差不多，因为都是基于Compact改进一点东西。从MySQL5.7版本之后，默认使用Dynamic行格式。</p>
+<p>对于<code>外连接</code>的两个表，驱动表中的记录即使在被驱动表中没有匹配的记录，也仍然需要加入到结果集。</p>
 </li>
 </ul>
-<h3 id="21-compact">2.1 Compact<a class="headerlink" href="#21-compact" title="Permanent link">&para;</a></h3>
-<p><img alt="" src="../img/compact_structure.png" /></p>
-<h4 id="221">2.2.1 变长字段长度列表<a class="headerlink" href="#221" title="Permanent link">&para;</a></h4>
-<p>我们知道<code>MySQL</code>支持一些变长的数据类型，比如<code>VARCHAR(M)</code>、<code>VARBINARY(M)</code>、各种<code>TEXT</code>类型，各种<code>BLOB</code>类型，我们也可以把拥有这些数据类型的列称为<code>变长字段</code>，变长字段中存储多少字节的数据是不固定的，所以我们在存储真实数据的时候需要顺便把这些数据占用的字节数也存起来，这样才不至于把<code>MySQL</code>服务器搞懵，所以这些变长字段占用的存储空间分为两部分：</p>
-<ol>
-<li>真正的数据内容（保存在<code>真实数据</code>）</li>
-<li>占用的字节数（保存在<code>变长字段列表</code>）</li>
-</ol>
-<p>在<code>Compact</code>行格式中，把所有变长字段的真实数据占用的字节长度都存放在记录的开头部位，从而形成一个变长字段长度列表，各变长字段数据占用的字节数以16进制格式按照列的顺序逆序存放，逆序存放！</p>
-<h4 id="222-null">2.2.2 NULL值列表<a class="headerlink" href="#222-null" title="Permanent link">&para;</a></h4>
-<p>我们知道表中的某些列可能存储<code>NULL</code>值，如果把这些<code>NULL</code>值都放到<code>记录的真实数据</code>中存储会很占地方，所以<code>Compact</code>行格式把这些值为<code>NULL</code>的列统一管理起来，存储到<code>NULL</code>值列表中。</p>
-<h4 id="223">2.2.3 记录头信息<a class="headerlink" href="#223" title="Permanent link">&para;</a></h4>
-<p>除了<code>变长字段长度列表</code>、<code>NULL值列表</code>之外，还有一个用于描述记录的<code>记录头信息</code>，它是由固定的<code>5</code>个字节组成。<code>5</code>个字节也就是<code>40</code>个二进制位，不同的位代表不同的意思，如图：</p>
-<p><img alt="" src="../img/record_head.png" /></p>
-<p>这些二进制位代表的详细信息如下表：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>大小（单位：bit）</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>预留位1</code></td>
-<td><code>1</code></td>
-<td>没有使用</td>
-</tr>
-<tr>
-<td><code>预留位2</code></td>
-<td><code>1</code></td>
-<td>没有使用</td>
-</tr>
-<tr>
-<td><code>delete_mask</code></td>
-<td><code>1</code></td>
-<td>标记该记录是否被删除</td>
-</tr>
-<tr>
-<td><code>min_rec_mask</code></td>
-<td><code>1</code></td>
-<td>B+树的每层非叶子节点中的最小记录都会添加该标记</td>
-</tr>
-<tr>
-<td><code>n_owned</code></td>
-<td><code>4</code></td>
-<td>表示当前记录拥有的记录数</td>
-</tr>
-<tr>
-<td><code>heap_no</code></td>
-<td><code>13</code></td>
-<td>表示当前记录在记录堆的位置信息</td>
-</tr>
-<tr>
-<td><code>record_type</code></td>
-<td><code>3</code></td>
-<td>表示当前记录的类型，<code>0</code>表示普通记录，<code>1</code>表示B+树非叶子节点记录，<code>2</code>表示最小记录，<code>3</code>表示最大记录</td>
-</tr>
-<tr>
-<td><code>next_record</code></td>
-<td><code>16</code></td>
-<td>表示下一条记录的相对位置</td>
-</tr>
-</tbody>
-</table>
-<h4 id="224">2.2.4 真实数据<a class="headerlink" href="#224" title="Permanent link">&para;</a></h4>
-<p>记录的真实数据我们自己定义的列的数据以外，<code>MySQL</code>会为每个记录默认的添加一些列（也称为<code>隐藏列</code>），具体的列如下：</p>
-<table>
-<thead>
-<tr>
-<th>列名</th>
-<th>是否必须</th>
-<th>占用空间</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>row_id</code></td>
-<td>否</td>
-<td><code>6</code>字节</td>
-<td>行ID，唯一标识一条记录</td>
-</tr>
-<tr>
-<td><code>transaction_id</code></td>
-<td>是</td>
-<td><code>6</code>字节</td>
-<td>事务ID</td>
-</tr>
-<tr>
-<td><code>roll_pointer</code></td>
-<td>是</td>
-<td><code>7</code>字节</td>
-<td>回滚指针</td>
-</tr>
-</tbody>
-</table>
-<p>现在看一下加上<code>记录的真实数据</code>的两个记录长什么样吧：</p>
-<p><img alt="" src="../img/record.png" /></p>
-<h3 id="22-dynamiccompressed">2.2 Dynamic和Compressed<a class="headerlink" href="#22-dynamiccompressed" title="Permanent link">&para;</a></h3>
-<p>这两种行格式类似于<code>COMPACT行格式</code>，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
-<p>另外，<code>Compressed</code>行格式会采用压缩算法对页面进行压缩。</p>
-<h2 id="_3">三、页格式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>一个<code>InnoDB</code>数据页的存储空间大致被划分成了<code>7</code>个部分，有的部分占用的字节数是确定的，有的部分占用的字节数是不确定的。如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>中文名</th>
-<th>占用空间大小</th>
-<th>简单描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>File Header</code></td>
-<td>文件头部</td>
-<td><code>38</code>字节</td>
-<td>页的一些通用信息</td>
-</tr>
-<tr>
-<td><code>Page Header</code></td>
-<td>页面头部</td>
-<td><code>56</code>字节</td>
-<td>数据页专有的一些信息</td>
-</tr>
-<tr>
-<td><code>Infimum + Supremum</code></td>
-<td>最小记录和最大记录</td>
-<td><code>26</code>字节</td>
-<td>两个虚拟的行记录</td>
-</tr>
-<tr>
-<td><code>User Records</code></td>
-<td>用户记录</td>
-<td>不确定</td>
-<td>实际存储的行记录内容</td>
-</tr>
-<tr>
-<td><code>Free Space</code></td>
-<td>空闲空间</td>
-<td>不确定</td>
-<td>页中尚未使用的空间</td>
-</tr>
-<tr>
-<td><code>Page Directory</code></td>
-<td>页面目录</td>
-<td>不确定</td>
-<td>页中的某些记录的相对位置</td>
-</tr>
-<tr>
-<td><code>File Trailer</code></td>
-<td>文件尾部</td>
-<td><code>8</code>字节</td>
-<td>校验页是否完整</td>
-</tr>
-</tbody>
-</table>
-<p>page页结构图如下所示：</p>
-<p><img alt="" src="../img/page.png" /></p>
-<h3 id="31-file-header">3.1 File Header<a class="headerlink" href="#31-file-header" title="Permanent link">&para;</a></h3>
-<p>缓冲池中页是通过双向链表来管理的，具体实现就是在<code>File Header</code>中保存了上一个page和下一个page页的页号。</p>
-<h3 id="32-user-records">3.2 User Records<a class="headerlink" href="#32-user-records" title="Permanent link">&para;</a></h3>
-<p>保存真实的数据记录，通过单链表管理。</p>
-<h3 id="33-page-directory">3.3 Page Directory<a class="headerlink" href="#33-page-directory" title="Permanent link">&para;</a></h3>
-<p><code>InnoDB</code>会把页中的记录划分为若干个组，每个组的最后一个记录的地址偏移量作为一个<code>槽</code>，存放在<code>Page Directory</code>中，所以在一个页中根据主键查找记录是非常快的，分为两步：</p>
+<p>在<code>MySQL</code>中，根据选取驱动表的不同，外连接仍然可以细分为2种：</p>
 <ul>
-<li>通过二分法确定该记录所在的槽。</li>
-<li>通过记录的next_record属性遍历该槽所在的组中的各个记录。</li>
+<li>
+<p>左外连接</p>
+<p>选取左侧的表为驱动表。</p>
+</li>
+<li>
+<p>右外连接</p>
+<p>选取右侧的表为驱动表。</p>
+</li>
 </ul>
+<h3 id="23">2.3 连接的原理<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<h4 id="231-nested-loop-join">2.3.1 Nested-Loop Join<a class="headerlink" href="#231-nested-loop-join" title="Permanent link">&para;</a></h4>
+<p>首先确定第一个需要查询的表，这个表称之为<code>驱动表</code>。根据驱动表的查询条件得到一个结果集，然后遍历该结果集依次与另一个表去匹配，我们将另一个表称为<code>被驱动表</code>。我们把对驱动表进行查询后得到的记录条数称之为驱动表的<code>扇出</code>（英文名：<code>fanout</code>）。因此可以得知驱动表只会被访问一遍，但被驱动表却要被访问多次，访问次数取决于对驱动表扇出值。过程如下所示：</p>
+<p><img alt="" src="../img/lianjieguocheng.png" /></p>
+<p>如果有3个表进行连接的话，那么<code>步骤2</code>中得到的结果集就像是新的驱动表，然后第三个表就成为了被驱动表，重复上边过程。</p>
+<p>我们将这种连接执行方式称之为<code>嵌套循环连接</code>（<code>Nested-Loop Join</code>），这是最简单，也是最笨拙的一种连接查询算法。</p>
+<h4 id="232">2.3.2 使用索引加快连接速度<a class="headerlink" href="#232" title="Permanent link">&para;</a></h4>
+<p>嵌套循环链接中是需要多次访问被驱动表，如果每次都是全表扫描的话，那么效率就非常低。因此可以考虑添加索引来提升查询速度。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">m1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">m1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">m2</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">n2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;d&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>该语句查询过程如下：</p>
+<p><img alt="" src="../img/lianjie1.png" /></p>
+<p>假设驱动表<code>t1</code>后的结果集中有两条记录，<code>嵌套循环连接</code>算法需要对被驱动表查询2次：</p>
+<ul>
+<li>当<code>t1.m1 = 2</code>时，去查询一遍<code>t2</code>表，对<code>t2</code>表的查询语句相当于：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">m2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">n2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;d&#39;</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>当<code>t1.m1 = 3</code>时，再去查询一遍<code>t2</code>表，此时对<code>t2</code>表的查询语句相当于：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">m2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">n2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">&#39;d&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>可以看到，原来的<code>t1.m1 = t2.m2</code>这个涉及两个表的过滤条件在针对<code>t2</code>表做查询时关于<code>t1</code>表的条件就已经确定了，所以我们只需要单单优化对<code>t2</code>表的查询了，上述两个对<code>t2</code>表的查询语句中利用到的列是<code>m2</code>和<code>n2</code>列，我们可以：</p>
+<ul>
+<li>m2列添加索引，因为对m2是等值查询，所以其访问方式为ref，回表之后再判断<code>t2.n2 &lt; d</code>这个条件是否成立</li>
+</ul>
+<p>假如m2是主键或者唯一二级索引，那么其访问是常数级别的。在单表中使用主键值或者唯一二级索引列的值进行等值查找的方式称之为<code>const</code>。在连接查询中对被驱动表使用主键值或者唯一二级索引列的值进行等值查找的查询执行方式称之为：<code>eq_ref</code>。</p>
+<ul>
+<li>
+<p>在<code>n2</code>列上建立索引，涉及到的条件是<code>t2.n2 &lt; 'd'</code>，可能用到<code>range</code>的访问方法，假设使用<code>range</code>的访问方法对<code>t2</code>表的查询的话，需要回表之后再判断在<code>m2</code>列上的条件是否成立。</p>
+</li>
+<li>
+<p>建立复合索引(m2,n2)，这种方式应该是最好的方案，可以减少回表的次数。</p>
+</li>
+</ul>
+<h4 id="233-block-nested-loop-join">2.3.3 Block Nested-Loop Join<a class="headerlink" href="#233-block-nested-loop-join" title="Permanent link">&para;</a></h4>
+<p>从 MySQL 8.0.20 开始，删除了对块嵌套循环的支持，并且服务器在以前使用块嵌套循环的任何地方都采用哈希连接。</p>
 
 
 
