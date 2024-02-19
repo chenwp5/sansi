@@ -10,13 +10,9 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/InnoDB%E8%A1%A8%E7%A9%BA%E9%97%B4/">
       
       
-        <link rel="prev" href="../MySQL%E6%9F%A5%E8%AF%A2/">
-      
-      
-        <link rel="next" href="../Buffer%20Pool/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +20,7 @@
     
     
       
-        <title>InnoDB数据记录和页 - 欢迎光~~临</title>
+        <title>InnoDB表空间 - 欢迎光~~临</title>
       
     
     
@@ -86,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#innodb" class="md-skip">
           跳转至
         </a>
       
@@ -122,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              InnoDB数据记录和页
+              InnoDB表空间
             
           </span>
         </div>
@@ -228,7 +224,11 @@
         
   
   
+  
     
+    
+      
+  
   
   
     
@@ -236,20 +236,10 @@
       
   
   
-    
-  
   
     
     
-      
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../InnoDB%E6%A6%82%E8%BF%B0/" class="md-tabs__link">
           
   
@@ -384,10 +374,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -400,12 +388,14 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
         
           
           <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
@@ -419,7 +409,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
             数据库
@@ -430,8 +420,6 @@
                 
   
   
-    
-  
   
   
     
@@ -443,12 +431,14 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1" >
         
           
           <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
@@ -462,7 +452,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1_1">
             <span class="md-nav__icon md-icon"></span>
             MySQL
@@ -473,10 +463,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -494,12 +482,14 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_1" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1_1" >
         
           
           <label class="md-nav__link" for="__nav_1_1_1" id="__nav_1_1_1_label" tabindex="0">
@@ -513,7 +503,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1_1_1">
             <span class="md-nav__icon md-icon"></span>
             InnoDB
@@ -547,6 +537,124 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_1_2" id="__nav_1_1_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    体系架构
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            体系架构
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E6%9E%B6%E6%9E%84%E5%9B%BE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB架构图
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB数据记录和页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB缓冲池
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../MySQL%E6%9F%A5%E8%AF%A2/" class="md-nav__link">
         
@@ -566,197 +674,14 @@
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    InnoDB数据记录和页
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    InnoDB数据记录和页
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      一、概述
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      二、记录格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="二、记录格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-compact" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Compact
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.1 Compact">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#221" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.1 变长字段长度列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#222-null" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.2 NULL值列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#223" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.3 记录头信息
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#224" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.4 真实数据
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-dynamiccompressed" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Dynamic和Compressed
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、页格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、页格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-file-header" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 File Header
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-user-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 User Records
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-page-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Page Directory
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
-      <a href="../Buffer%20Pool/" class="md-nav__link">
+      <a href="../MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Buffer Pool
+    MySQL执行计划
   </span>
   
 
@@ -773,11 +698,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../read_ahead/" class="md-nav__link">
+      <a href="../MySQL%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    预读
+    MySQL事务
   </span>
   
 
@@ -1265,140 +1190,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      一、概述
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      二、记录格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="二、记录格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-compact" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 Compact
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2.1 Compact">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#221" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.1 变长字段长度列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#222-null" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.2 NULL值列表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#223" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.3 记录头信息
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#224" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2.4 真实数据
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-dynamiccompressed" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 Dynamic和Compressed
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、页格式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、页格式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-file-header" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 File Header
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-user-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 User Records
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-page-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.3 Page Directory
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -1416,194 +1209,7 @@
   
 
 
-  <h1>InnoDB数据记录和页</h1>
-
-<h2 id="_1">一、概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>InnoDB将磁盘中的数据划分为若干个页，默认大小为16K，每次从磁盘以页为最小单位读取数据。而数据记录则保存在页中，InnoDB规定每页最少保存两条记录。当记录中的数据太多，当前页放不下的时候，会把多余的数据存储到其他页中，这种现象称为<code>行溢出</code>。</p>
-<h2 id="_2">二、记录格式<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>InnoDB目前提供四种格式：Compact、Redundant、Dynamic和Compressed。</p>
-<ul>
-<li>
-<p>Redundant是MySQL5.0版本之前一种非紧凑的行格式，现在基本没人用了。</p>
-</li>
-<li>
-<p>Compact是MySQL5.0之后引入的一种紧凑的行格式，为了让一个数据页中可以存放更多的行记录</p>
-</li>
-<li>
-<p>Dynamic和Compressed两个都是紧凑的行格式，它们的行格式都和Compact差不多，因为都是基于Compact改进一点东西。从MySQL5.7版本之后，默认使用Dynamic行格式。</p>
-</li>
-</ul>
-<h3 id="21-compact">2.1 Compact<a class="headerlink" href="#21-compact" title="Permanent link">&para;</a></h3>
-<p><img alt="" src="../img/compact_structure.png" /></p>
-<h4 id="221">2.2.1 变长字段长度列表<a class="headerlink" href="#221" title="Permanent link">&para;</a></h4>
-<p>我们知道<code>MySQL</code>支持一些变长的数据类型，比如<code>VARCHAR(M)</code>、<code>VARBINARY(M)</code>、各种<code>TEXT</code>类型，各种<code>BLOB</code>类型，我们也可以把拥有这些数据类型的列称为<code>变长字段</code>，变长字段中存储多少字节的数据是不固定的，所以我们在存储真实数据的时候需要顺便把这些数据占用的字节数也存起来，这样才不至于把<code>MySQL</code>服务器搞懵，所以这些变长字段占用的存储空间分为两部分：</p>
-<ol>
-<li>真正的数据内容（保存在<code>真实数据</code>）</li>
-<li>占用的字节数（保存在<code>变长字段列表</code>）</li>
-</ol>
-<p>在<code>Compact</code>行格式中，把所有变长字段的真实数据占用的字节长度都存放在记录的开头部位，从而形成一个变长字段长度列表，各变长字段数据占用的字节数以16进制格式按照列的顺序逆序存放，逆序存放！</p>
-<h4 id="222-null">2.2.2 NULL值列表<a class="headerlink" href="#222-null" title="Permanent link">&para;</a></h4>
-<p>我们知道表中的某些列可能存储<code>NULL</code>值，如果把这些<code>NULL</code>值都放到<code>记录的真实数据</code>中存储会很占地方，所以<code>Compact</code>行格式把这些值为<code>NULL</code>的列统一管理起来，存储到<code>NULL</code>值列表中。</p>
-<h4 id="223">2.2.3 记录头信息<a class="headerlink" href="#223" title="Permanent link">&para;</a></h4>
-<p>除了<code>变长字段长度列表</code>、<code>NULL值列表</code>之外，还有一个用于描述记录的<code>记录头信息</code>，它是由固定的<code>5</code>个字节组成。<code>5</code>个字节也就是<code>40</code>个二进制位，不同的位代表不同的意思，如图：</p>
-<p><img alt="" src="../img/record_head.png" /></p>
-<p>这些二进制位代表的详细信息如下表：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>大小（单位：bit）</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>预留位1</code></td>
-<td><code>1</code></td>
-<td>没有使用</td>
-</tr>
-<tr>
-<td><code>预留位2</code></td>
-<td><code>1</code></td>
-<td>没有使用</td>
-</tr>
-<tr>
-<td><code>delete_mask</code></td>
-<td><code>1</code></td>
-<td>标记该记录是否被删除</td>
-</tr>
-<tr>
-<td><code>min_rec_mask</code></td>
-<td><code>1</code></td>
-<td>B+树的每层非叶子节点中的最小记录都会添加该标记</td>
-</tr>
-<tr>
-<td><code>n_owned</code></td>
-<td><code>4</code></td>
-<td>表示当前记录拥有的记录数</td>
-</tr>
-<tr>
-<td><code>heap_no</code></td>
-<td><code>13</code></td>
-<td>表示当前记录在记录堆的位置信息</td>
-</tr>
-<tr>
-<td><code>record_type</code></td>
-<td><code>3</code></td>
-<td>表示当前记录的类型，<code>0</code>表示普通记录，<code>1</code>表示B+树非叶子节点记录，<code>2</code>表示最小记录，<code>3</code>表示最大记录</td>
-</tr>
-<tr>
-<td><code>next_record</code></td>
-<td><code>16</code></td>
-<td>表示下一条记录的相对位置</td>
-</tr>
-</tbody>
-</table>
-<h4 id="224">2.2.4 真实数据<a class="headerlink" href="#224" title="Permanent link">&para;</a></h4>
-<p>记录的真实数据我们自己定义的列的数据以外，<code>MySQL</code>会为每个记录默认的添加一些列（也称为<code>隐藏列</code>），具体的列如下：</p>
-<table>
-<thead>
-<tr>
-<th>列名</th>
-<th>是否必须</th>
-<th>占用空间</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>row_id</code></td>
-<td>否</td>
-<td><code>6</code>字节</td>
-<td>行ID，唯一标识一条记录</td>
-</tr>
-<tr>
-<td><code>transaction_id</code></td>
-<td>是</td>
-<td><code>6</code>字节</td>
-<td>事务ID</td>
-</tr>
-<tr>
-<td><code>roll_pointer</code></td>
-<td>是</td>
-<td><code>7</code>字节</td>
-<td>回滚指针</td>
-</tr>
-</tbody>
-</table>
-<p>现在看一下加上<code>记录的真实数据</code>的两个记录长什么样吧：</p>
-<p><img alt="" src="../img/record.png" /></p>
-<h3 id="22-dynamiccompressed">2.2 Dynamic和Compressed<a class="headerlink" href="#22-dynamiccompressed" title="Permanent link">&para;</a></h3>
-<p>这两种行格式类似于<code>COMPACT行格式</code>，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
-<p>另外，<code>Compressed</code>行格式会采用压缩算法对页面进行压缩。</p>
-<h2 id="_3">三、页格式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>一个<code>InnoDB</code>数据页的存储空间大致被划分成了<code>7</code>个部分，有的部分占用的字节数是确定的，有的部分占用的字节数是不确定的。如下表所示：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>中文名</th>
-<th>占用空间大小</th>
-<th>简单描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>File Header</code></td>
-<td>文件头部</td>
-<td><code>38</code>字节</td>
-<td>页的一些通用信息</td>
-</tr>
-<tr>
-<td><code>Page Header</code></td>
-<td>页面头部</td>
-<td><code>56</code>字节</td>
-<td>数据页专有的一些信息</td>
-</tr>
-<tr>
-<td><code>Infimum + Supremum</code></td>
-<td>最小记录和最大记录</td>
-<td><code>26</code>字节</td>
-<td>两个虚拟的行记录</td>
-</tr>
-<tr>
-<td><code>User Records</code></td>
-<td>用户记录</td>
-<td>不确定</td>
-<td>实际存储的行记录内容</td>
-</tr>
-<tr>
-<td><code>Free Space</code></td>
-<td>空闲空间</td>
-<td>不确定</td>
-<td>页中尚未使用的空间</td>
-</tr>
-<tr>
-<td><code>Page Directory</code></td>
-<td>页面目录</td>
-<td>不确定</td>
-<td>页中的某些记录的相对位置</td>
-</tr>
-<tr>
-<td><code>File Trailer</code></td>
-<td>文件尾部</td>
-<td><code>8</code>字节</td>
-<td>校验页是否完整</td>
-</tr>
-</tbody>
-</table>
-<p>page页结构图如下所示：</p>
-<p><img alt="" src="../img/page.png" /></p>
-<h3 id="31-file-header">3.1 File Header<a class="headerlink" href="#31-file-header" title="Permanent link">&para;</a></h3>
-<p>缓冲池中页是通过双向链表来管理的，具体实现就是在<code>File Header</code>中保存了上一个page和下一个page页的页号。</p>
-<h3 id="32-user-records">3.2 User Records<a class="headerlink" href="#32-user-records" title="Permanent link">&para;</a></h3>
-<p>保存真实的数据记录，通过单链表管理。</p>
-<h3 id="33-page-directory">3.3 Page Directory<a class="headerlink" href="#33-page-directory" title="Permanent link">&para;</a></h3>
-<p><code>InnoDB</code>会把页中的记录划分为若干个组，每个组的最后一个记录的地址偏移量作为一个<code>槽</code>，存放在<code>Page Directory</code>中，所以在一个页中根据主键查找记录是非常快的，分为两步：</p>
-<ul>
-<li>通过二分法确定该记录所在的槽。</li>
-<li>通过记录的next_record属性遍历该槽所在的组中的各个记录。</li>
-</ul>
+<h1 id="innodb">InnoDB表空间<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h1>
 
 
 

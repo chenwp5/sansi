@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/MySQL%E6%9F%A5%E8%AF%A2/">
       
       
-        <link rel="prev" href="../InnoDB%E6%A6%82%E8%BF%B0/">
+        <link rel="prev" href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/">
       
       
-        <link rel="next" href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/">
+        <link rel="next" href="../MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -545,6 +545,124 @@
                 
   
   
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_1_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_1_2" id="__nav_1_1_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    体系架构
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_1_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            体系架构
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E6%9E%B6%E6%9E%84%E5%9B%BE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB架构图
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB数据记录和页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB缓冲池
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -727,6 +845,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#234-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.4 Hash Join
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -753,11 +880,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../Innodb%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+      <a href="../MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    InnoDB数据记录和页
+    MySQL执行计划
   </span>
   
 
@@ -774,32 +901,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../Buffer%20Pool/" class="md-nav__link">
+      <a href="../MySQL%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Buffer Pool
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../read_ahead/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    预读
+    MySQL事务
   </span>
   
 
@@ -1430,6 +1536,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#234-hash-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.4 Hash Join
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1513,7 +1628,7 @@
 </ul>
 <h3 id="23">2.3 连接的原理<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
 <h4 id="231-nested-loop-join">2.3.1 Nested-Loop Join<a class="headerlink" href="#231-nested-loop-join" title="Permanent link">&para;</a></h4>
-<p>首先确定第一个需要查询的表，这个表称之为<code>驱动表</code>。根据驱动表的查询条件得到一个结果集，然后遍历该结果集依次与另一个表去匹配，我们将另一个表称为<code>被驱动表</code>。我们把对驱动表进行查询后得到的记录条数称之为驱动表的<code>扇出</code>（英文名：<code>fanout</code>）。因此可以得知驱动表只会被访问一遍，但被驱动表却要被访问多次，访问次数取决于对驱动表扇出值。过程如下所示：</p>
+<p>首先确定第一个需要查询的表，这个表称之为<code>驱动表</code>。根据驱动表的查询条件得到一个结果集，然后遍历该结果集依次与另一个表去匹配，我们将另一个表称为<code>被驱动表</code>。我们把对驱动表进行查询后得到的记录条数称之为驱动表的<code>扇出</code>（英文名：<code>fanout</code>）。因此可以得知<strong>驱动表只会被访问一遍，但被驱动表却要被访问多次，访问次数取决于对驱动表扇出值。</strong>过程如下所示：</p>
 <p><img alt="" src="../img/lianjieguocheng.png" /></p>
 <p>如果有3个表进行连接的话，那么<code>步骤2</code>中得到的结果集就像是新的驱动表，然后第三个表就成为了被驱动表，重复上边过程。</p>
 <p>我们将这种连接执行方式称之为<code>嵌套循环连接</code>（<code>Nested-Loop Join</code>），这是最简单，也是最笨拙的一种连接查询算法。</p>
@@ -1548,7 +1663,15 @@
 </li>
 </ul>
 <h4 id="233-block-nested-loop-join">2.3.3 Block Nested-Loop Join<a class="headerlink" href="#233-block-nested-loop-join" title="Permanent link">&para;</a></h4>
-<p>从 MySQL 8.0.20 开始，删除了对块嵌套循环的支持，并且服务器在以前使用块嵌套循环的任何地方都采用哈希连接。</p>
+<p><code>MySQL</code>提出了一个<code>join buffer</code>的概念，<code>join buffer</code>就是执行连接查询前申请的一块固定大小的内存，先把若干条驱动表结果集中的记录装在这个<code>join buffer</code>中，然后开始扫描被驱动表，每一条被驱动表的记录一次性和<code>join buffer</code>中的多条驱动表记录做匹配，因为匹配的过程都是在内存中完成的，所以这样可以显著减少被驱动表的<code>I/O</code>代价。</p>
+<p>最好的情况是<code>join buffer</code>足够大，能容纳驱动表结果集中的所有记录，这样只需要访问一次被驱动表就可以完成连接操作了。设计<code>MySQL</code>的大叔把这种加入了<code>join buffer</code>的嵌套循环连接算法称之为<code>基于块的嵌套连接</code>（Block Nested-Loop Join）算法。</p>
+<blockquote>
+<p>注：从 MySQL 8.0.20 开始，删除了对块嵌套循环的支持，并且服务器在以前使用块嵌套循环的任何地方都采用哈希连接。</p>
+</blockquote>
+<h4 id="234-hash-join">2.3.4 Hash Join<a class="headerlink" href="#234-hash-join" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p><a href="http://mysql.taobao.org/monthly/2019/11/02/">MySQL · 新特征 · MySQL 哈希连接实现介绍</a></p>
+</blockquote>
 
 
 
