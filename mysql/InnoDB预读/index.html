@@ -10,7 +10,7 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/InnoDB%E8%A1%A8%E7%A9%BA%E9%97%B4/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/mysql/InnoDB%E9%A2%84%E8%AF%BB/">
       
       
       
@@ -20,7 +20,7 @@
     
     
       
-        <title>InnoDB表空间 - 欢迎光~~临</title>
+        <title>预读 - 欢迎光~~临</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#innodb" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              InnoDB表空间
+              预读
             
           </span>
         </div>
@@ -606,11 +606,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../InnoDB%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E5%92%8C%E9%A1%B5/" class="md-nav__link">
+      <a href="../InnoDB%E7%A3%81%E7%9B%98%E7%BB%93%E6%9E%84/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    InnoDB数据记录和页
+    InnoDB磁盘结构
   </span>
   
 
@@ -1209,7 +1209,19 @@
   
 
 
-<h1 id="innodb">InnoDB表空间<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h1>
+<h1 id="_1">预读<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>读取预取请求是一种异步的I/O请求，用于在预期即将需要这些页面时，将多个页面提前加载到缓冲池中。这些请求会一次性获取一个区段中的所有页面。InnoDB使用两种读取预取算法来提高I/O性能：</p>
+<ul>
+<li>线性读取预取是一种预测哪些页面可能很快被需要的技巧，基于缓冲池中按顺序访问的页面。您可以通过调整触发异步读取请求所需的连续页面访问次数来控制InnoDB何时执行读取预取操作，使用配置参数<code>innodb_read_ahead_threshold</code>。</li>
+<li>随机读取预取是一种预测页面可能很快被需要的技巧，基于缓冲池中已经存在的页面，而不考虑这些页面的读取顺序。如果缓冲池中有来自同一区段的13个连续页面，InnoDB将异步发出请求，预取该区段中剩余的页面。要启用此功能，请将配置变量<code>innodb_random_read_ahead</code>设置为ON。</li>
+</ul>
+<p><code>SHOW ENGINE INNODB STATUS</code>命令会显示统计信息，以帮助您评估读取预取算法的有效性。这些统计信息包括以下全局状态变量的计数器信息：</p>
+<ul>
+<li><code>Innodb_buffer_pool_read_ahead</code></li>
+<li><code>Innodb_buffer_pool_read_ahead_evicted</code></li>
+<li><code>Innodb_buffer_pool_read_ahead_rnd</code></li>
+</ul>
+<p>这些信息在微调<code>innodb_random_read_ahead</code>设置时非常有用。</p>
 
 
 
