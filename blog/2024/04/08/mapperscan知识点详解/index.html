@@ -10,13 +10,11 @@
         <meta name="author" content="chenwp5">
       
       
-        <link rel="canonical" href="https://chenwp5.github.io/sansi/blog/2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
+        <link rel="canonical" href="https://chenwp5.github.io/sansi/blog/2024/04/08/mapperscan%E7%9F%A5%E8%AF%86%E7%82%B9%E8%AF%A6%E8%A7%A3/">
       
       
-        <link rel="prev" href="../../../01/06/%E8%B5%B0%E8%BF%9Brds%E4%B9%8Bmysql%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E4%B8%8E%E7%AE%A1%E7%90%86%E4%B8%AD%E7%AF%87/">
+        <link rel="prev" href="../../../../2023/10/18/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/">
       
-      
-        <link rel="next" href="../../../../2024/04/08/mapperscan%E7%9F%A5%E8%AF%86%E7%82%B9%E8%AF%A6%E8%A7%A3/">
       
       
       <link rel="icon" href="../../../../../assets/images/favicon.png">
@@ -24,7 +22,7 @@
     
     
       
-        <title>Linux常用命令记录 - 欢迎光~~临</title>
+        <title>MapperScan知识点详解 - 欢迎光~~临</title>
       
     
     
@@ -86,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#linux" class="md-skip">
+        <a href="#mapperscan" class="md-skip">
           跳转至
         </a>
       
@@ -122,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Linux常用命令记录
+              MapperScan知识点详解
             
           </span>
         </div>
@@ -1354,20 +1352,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sed" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、sed命令
+      一、简介
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      二、查询文件夹中文件数量
+      二、使用
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="二、使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 使用示例
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、源码分析
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、源码分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-mapperscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 MapperScan注解
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-import" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 Import注解
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-mapperscannerregistrar" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 MapperScannerRegistrar
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1427,7 +1482,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg>
-                        <time datetime="2023-10-18 00:00:00" class="md-ellipsis">2023年10月18日</time>
+                        <time datetime="2024-04-08 00:00:00" class="md-ellipsis">2024年4月8日</time>
                       </div>
                     </li>
                     
@@ -1438,7 +1493,7 @@
                           <span class="md-ellipsis">
                             分类于
                             
-                              <a href="../../../../category/linux/">Linux</a></span>
+                              <a href="../../../../category/mybatis/">Mybatis</a></span>
                         </div>
                       </li>
                     
@@ -1472,62 +1527,66 @@
   
 
 
+<h1 id="mapperscan">MapperScan知识点详解<a class="headerlink" href="#mapperscan" title="Permanent link">&para;</a></h1>
+<h2 id="_1">一、简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>@MapperScan是MyBatis框架中的一个注解，它的作用是<strong>用于扫描MyBatis Mapper接口，并将这些接口注册到MyBatis框架中</strong> 它通过MapperScannerRegistrar执行与MapperScannerConfigurer相同的工作。</p>
+<p>可以指定basePackageClasses 或basePackages（或其别名值）来定义要扫描的特定包。 从2.0.4开始，如果没有定义特定的包，将从声明该注解的类的包开始扫描。</p>
 <!-- more -->
 
-<h1 id="linux">Linux常用命令记录<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h1>
-<h2 id="sed">一、sed命令<a class="headerlink" href="#sed" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 对每行匹配到的第一个字符串进行替换</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/原字符串/新字符串/&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 对全局匹配上的所有字符串进行替换</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/原字符串/新字符串/g&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># 删除所有匹配到字符串的行</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/匹配字符串/d&#39;</span><span class="w">  </span>ab.txt<span class="w">  </span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># 特定字符串的行后插入新行</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/特定字符串/a 新行字符串&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># 特定字符串的行前插入新行</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/特定字符串/i 新行字符串&#39;</span><span class="w"> </span>ab.txt
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1"># 把匹配行中的某个字符串替换为目标字符串</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/匹配字符串/s/源字符串/目标字符串/g&#39;</span><span class="w"> </span>ab.txt
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1"># 在文件ab.txt中的末行之后，添加bye</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;$a bye&#39;</span><span class="w"> </span>ab.txt<span class="w">   </span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="c1"># 对于文件第3行，把匹配上的所有字符串进行替换</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;3s/原字符串/新字符串/g&#39;</span><span class="w"> </span>ab.txt<span class="w"> </span>
+<h2 id="_2">二、使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>将Mybatis Mapper接口注册到spring容器中有两种常用方式：@Mapper和@MapperScan。</p>
+<ul>
+<li>@Mapper</li>
+</ul>
+<p>添加在Mapper接口类中，将该接口注册到容器</p>
+<ul>
+<li>@MapperScan</li>
+</ul>
+<p>​   一般添加在springboot启动类中，通过配置Mapper接口的路径，将该路径下的接口都注册到容器中。</p>
+<blockquote>
+<p>注：如果同时使用两个注解，会导致@Mapper失效。</p>
+</blockquote>
+<h3 id="21">2.1 使用示例<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@SpringBootApplication</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nd">@MapperScan</span><span class="p">(</span><span class="s">&quot;com.boot3.dynamicDataSource.mapper&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ApplicationStater</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">ApplicationStater</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_1">二、查询文件夹中文件数量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>Linux下有三个命令：<code>ls</code>、<code>grep</code>、<code>wc</code>。通过这三个命令的组合可以统计目录下文件及文件夹的个数。</p>
-<ul>
-<li>统计当前目录下文件的个数（不包括目录）</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ ls -l | grep &quot;^-&quot; | wc -l
+<h2 id="_3">三、源码分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="31-mapperscan">3.1 MapperScan注解<a class="headerlink" href="#31-mapperscan" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Retention</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">.</span><span class="na">RUNTIME</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nd">@Target</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">TYPE</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nd">@Documented</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nd">@Import</span><span class="p">(</span><span class="n">MapperScannerRegistrar</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nd">@Repeatable</span><span class="p">(</span><span class="n">MapperScans</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kd">public</span><span class="w"> </span><span class="nd">@interface</span><span class="w"> </span><span class="n">MapperScan</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nd">@AliasFor</span><span class="p">(</span><span class="s">&quot;basePackages&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">value</span><span class="p">()</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{};</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nd">@AliasFor</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">basePackages</span><span class="p">()</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{};</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="n">Class</span><span class="o">&lt;?&gt;[]</span><span class="w"> </span><span class="n">basePackageClasses</span><span class="p">()</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{};</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="p">....</span><span class="na">省略其他属性</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
 </code></pre></div>
-<ul>
-<li>统计当前目录下文件的个数（包括子目录）</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$ ls -lR| grep &quot;^-&quot; | wc -l
+<p>MapperScan注解中重要的就是@Import注解，它用来将类注册Spirng的IOC容器中。</p>
+<h3 id="32-import">3.2 Import注解<a class="headerlink" href="#32-import" title="Permanent link">&para;</a></h3>
+<p>Import注解提供三种方式可以将类注册到IOC容器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>@Import一个普通类 spring会将该类加载到spring容器中
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>@Import一个类，该类实现了ImportBeanDefinitionRegistrar接口，在重写的registerBeanDefinitions方法里面，能手工往beanDefinitionMap中注册beanDefinition
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>@Import一个类 该类实现了ImportSelector 重写selectImports方法该方法返回了String[]数组，所有保存到数组中的全路径类名都将被注册到IOC容器中
 </code></pre></div>
-<ul>
-<li>查看某目录下文件夹(目录)的个数（包括子目录）</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$ ls -lR | grep &quot;^d&quot; | wc -l
-</code></pre></div>
-<p><strong>命令解析：</strong></p>
-<ul>
-<li><code>ls -l</code></li>
-</ul>
-<p>长列表输出该目录下文件信息(注意这里的文件是指目录、链接、设备文件等)，每一行对应一个文件或目录，<code>ls -lR</code>是列出所有文件，包括子目录。</p>
-<ul>
-<li><code>grep "^-"</code>
-  过滤<code>ls</code>的输出信息，只保留一般文件，只保留目录是<code>grep "^d"</code>。</li>
-<li><code>wc -l</code>
-  统计输出信息的行数，统计结果就是输出信息的行数，一行信息对应一个文件，所以就是文件的个数。</li>
-</ul>
+<h3 id="33-mapperscannerregistrar">3.3 MapperScannerRegistrar<a class="headerlink" href="#33-mapperscannerregistrar" title="Permanent link">&para;</a></h3>
 
 
 
