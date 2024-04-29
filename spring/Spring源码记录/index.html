@@ -1012,6 +1012,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#223-listablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.3 ListableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224-hierarchicalbeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.4 HierarchicalBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#225-configurablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.5 ConfigurableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#226-autowirecapablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.6 AutowireCapableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1511,6 +1547,42 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#223-listablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.3 ListableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224-hierarchicalbeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.4 HierarchicalBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#225-configurablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.5 ConfigurableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#226-autowirecapablebeanfactory" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2.6 AutowireCapableBeanFactory
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1604,7 +1676,7 @@
 </code></pre></div>
 <p>看过这两个接口的源码之后，就清楚了<strong><code>BeanDefinitionRegistry</code></strong>接口的作用：管理Bean的别名和定义信息。</p>
 <h3 id="22-configurablelistablebeanfactory">2.2 ConfigurableListableBeanFactory<a class="headerlink" href="#22-configurablelistablebeanfactory" title="Permanent link">&para;</a></h3>
-<p>查看上文类图，发现其继承的接口很多，我们依次说明。首先最顶层的接口有两个，分别是<strong><code>BeanFactory</code></strong>和<strong><code>SingletonBeanRegistry</code></strong>。</p>
+<p>查看上文类图，发现其继承的接口很多，其父接口说明如下。</p>
 <h4 id="221-beanfactory">2.2.1 BeanFactory<a class="headerlink" href="#221-beanfactory" title="Permanent link">&para;</a></h4>
 <p><strong><code>BeanFactory</code></strong>是访问Spring容器最核心的接口。他最主要的作用为获取容器中的Bean。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">BeanFactory</span><span class="w"> </span><span class="p">{</span>
@@ -1673,6 +1745,105 @@
 <p>思绪记录</p>
 <p>​ 文章中记录的IOC容器是一个抽象的概念，它是Spirng中保存所有bean信息的集合，我们将这些集合统称为IOC容器或者Spring容器。 实际上<strong>DefaultSingletonBeanRegistry</strong>和<strong>DefaultListableBeanFactory</strong>都有一个类型为<strong>ConcurrentHashMap</strong>的成员变量，分别为<code>Map&lt;String, BeanDefinition&gt; beanDefinitionMap</code>和<code>Map&lt;String, Object&gt; singletonObjects</code>。<strong>beanDefinitionMap</strong>用于保存bean的定义信息，<strong>singletonObjects</strong>用于保存已经实例化的bean。</p>
 </blockquote>
+<h4 id="223-listablebeanfactory">2.2.3 ListableBeanFactory<a class="headerlink" href="#223-listablebeanfactory" title="Permanent link">&para;</a></h4>
+<p>该接口继承了<strong><code>BeanFactory</code></strong>，在其功能的基础上，新增枚举bean实例的功能。</p>
+<blockquote>
+<p>NOTE: With the exception of getBeanDefinitionCount and containsBeanDefinition, the methods in this interface are not designed for frequent invocation. Implementations may be slow.</p>
+</blockquote>
+<p>需要注意的是，该接口中除了<code>getBeanDefinitionCount</code> 和 <code>containsBeanDefinition</code>，其他方法不适合频繁调用。执行会比较慢。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ListableBeanFactory</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">BeanFactory</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">containsBeanDefinition</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">);</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">getBeanDefinitionCount</span><span class="p">();</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanDefinitionNames</span><span class="p">();</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ObjectProvider</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBeanProvider</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">requiredType</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowEagerInit</span><span class="p">);</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ObjectProvider</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBeanProvider</span><span class="p">(</span><span class="n">ResolvableType</span><span class="w"> </span><span class="n">requiredType</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowEagerInit</span><span class="p">);</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanNamesForType</span><span class="p">(</span><span class="n">ResolvableType</span><span class="w"> </span><span class="n">type</span><span class="p">);</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanNamesForType</span><span class="p">(</span><span class="n">ResolvableType</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">includeNonSingletons</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowEagerInit</span><span class="p">);</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanNamesForType</span><span class="p">(</span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">type</span><span class="p">);</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanNamesForType</span><span class="p">(</span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">includeNonSingletons</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowEagerInit</span><span class="p">);</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBeansOfType</span><span class="p">(</span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBeansOfType</span><span class="p">(</span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">includeNonSingletons</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowEagerInit</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getBeanNamesForAnnotation</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Annotation</span><span class="o">&gt;</span><span class="w"> </span><span class="n">annotationType</span><span class="p">);</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getBeansWithAnnotation</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Annotation</span><span class="o">&gt;</span><span class="w"> </span><span class="n">annotationType</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nd">@Nullable</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">A</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Annotation</span><span class="o">&gt;</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nf">findAnnotationOnBean</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">,</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="n">annotationType</span><span class="p">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">NoSuchBeanDefinitionException</span><span class="p">;</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="nd">@Nullable</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">A</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Annotation</span><span class="o">&gt;</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nf">findAnnotationOnBean</span><span class="p">(</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">,</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="n">annotationType</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowFactoryBeanInit</span><span class="p">)</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">NoSuchBeanDefinitionException</span><span class="p">;</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">A</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Annotation</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAllAnnotationsOnBean</span><span class="p">(</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">,</span><span class="w"> </span><span class="n">Class</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="n">annotationType</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">allowFactoryBeanInit</span><span class="p">)</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">NoSuchBeanDefinitionException</span><span class="p">;</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="224-hierarchicalbeanfactory">2.2.4 HierarchicalBeanFactory<a class="headerlink" href="#224-hierarchicalbeanfactory" title="Permanent link">&para;</a></h4>
+<p><strong><code>HierarchicalBeanFactory</code></strong> 在<strong><code>BeanFactory</code></strong>基础上，新增提供父子容器的层次关系查找能力。</p>
+<p>至于父容器的设置，需要通过<strong><code>ConfigurableBeanFactory#setParentBeanFactory</code></strong></p>
+<blockquote>
+<p>至于为啥要将设置和查询拆开，看不太明白。</p>
+</blockquote>
+<p>其源码如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">HierarchicalBeanFactory</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">BeanFactory</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nd">@Nullable</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">BeanFactory</span><span class="w"> </span><span class="nf">getParentBeanFactory</span><span class="p">();</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">containsLocalBean</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">}</span>
+</code></pre></div>
+<h4 id="225-configurablebeanfactory">2.2.5 ConfigurableBeanFactory<a class="headerlink" href="#225-configurablebeanfactory" title="Permanent link">&para;</a></h4>
+<p><strong><code>ConfigurableBeanFactory</code></strong>接口定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ConfigurableBeanFactory</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">HierarchicalBeanFactory</span><span class="p">,</span><span class="w"> </span><span class="n">SingletonBeanRegistry</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>该接口继承了<strong><code>HierarchicalBeanFactory</code></strong>和<strong><code>SingletonBeanRegistry</code></strong>。所以其具备查询bean实例（来自<strong>BeanFactory</strong>）、查询父容器（来自<strong>HierarchicalBeanFactory</strong>）和注册已实例化的bean到容器（来自<strong>SingletonBeanRegistry</strong>）的能力，<strong><code>ConfigurableBeanFactory</code></strong>接口在此之外新提供了很多配置 bean 工厂的工具。</p>
+<p><strong><code>ConfigurableBeanFactory</code></strong>接口不适合在正常应用程序代码中使用——应使用 <code>**BeanFactory**</code> 或 <strong><code>org.springframework.beans.factory.ListableBeanFactory</code></strong> 。 这个扩展接口只是为了允许框架内部即插即用以及对 bean 工厂配置方法的特殊访问。</p>
+<p><strong><code>ConfigurableBeanFactory</code></strong>接口源码较多不便在文章中展示，其接口文档地址如下：<a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/ConfigurableBeanFactory.html">ConfigurableBeanFactory</a></p>
+<h4 id="226-autowirecapablebeanfactory">2.2.6 AutowireCapableBeanFactory<a class="headerlink" href="#226-autowirecapablebeanfactory" title="Permanent link">&para;</a></h4>
+<p>该接口在<strong><code>BeanFactory</code></strong>的基础上新提供了自动装配功能，可以将IOC容器中已经实例化的bean，注入到不在IOC容器中的普通对象。该接口是实现类为<strong><code>AbstractAutowireCapableBeanFactory</code></strong>，主要用于与第三方框架整合。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">AutowireCapableBeanFactory</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">BeanFactory</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">AUTOWIRE_NO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">AUTOWIRE_BY_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">AUTOWIRE_BY_TYPE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">AUTOWIRE_CONSTRUCTOR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nd">@Deprecated</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">AUTOWIRE_AUTODETECT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">ORIGINAL_INSTANCE_SUFFIX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;.ORIGINAL&quot;</span><span class="p">;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="c1">//实例化bean,过程中会自动注入需要的属性。</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="nf">createBean</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">beanClass</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="c1">//自动注入bean中属性，如果IOC容器中存在</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">autowireBean</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">configureBean</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">autowire</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">beanClass</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">autowireMode</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">dependencyCheck</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">autowireBeanProperties</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">autowireMode</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">dependencyCheck</span><span class="p">)</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">applyBeanPropertyValues</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">initializeBean</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">beanName</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">destroyBean</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">existingBean</span><span class="p">);</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">    </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">NamedBeanHolder</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">resolveNamedBean</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">requiredType</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">resolveBeanByName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">DependencyDescriptor</span><span class="w"> </span><span class="n">descriptor</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="w">    </span><span class="nd">@Nullable</span>
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">resolveDependency</span><span class="p">(</span><span class="n">DependencyDescriptor</span><span class="w"> </span><span class="n">descriptor</span><span class="p">,</span><span class="w"> </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">requestingBeanName</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="w">    </span><span class="nd">@Nullable</span>
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="nf">resolveDependency</span><span class="p">(</span><span class="n">DependencyDescriptor</span><span class="w"> </span><span class="n">descriptor</span><span class="p">,</span><span class="w"> </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">requestingBeanName</span><span class="p">,</span>
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a><span class="w">            </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">autowiredBeanNames</span><span class="p">,</span><span class="w"> </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">TypeConverter</span><span class="w"> </span><span class="n">typeConverter</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">BeansException</span><span class="p">;</span>
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="p">}</span>
+</code></pre></div>
 
 
 
