@@ -75,7 +75,7 @@ extra:
   #google analytics
   analytics:
     provider: google
-    property: G-0XF6Z1SSY8
+    property: G-YYKVVKLK19
     feedback:
       title: 这篇文章是否对您有帮助?
       ratings:
