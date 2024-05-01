@@ -1,4 +1,66 @@
 site_name: 后花园
-site_url: https://mydomain.org/mysite
+repo_url: https://github.com/chenwp5/sansi
+repo_name: chenwp/sansi
+
+##目录设置
+nav:
+  - 数据库: 
+    - MySql:
+      - InnoDB版本及新特性: database/mysql/InnoDB版本及新特性.md
+      - InnoDB存储引擎:
+        - InnoDB磁盘结构: database/mysql/InnoDB磁盘结构.md
+        - InnoDB缓冲池: database/mysql/InnoDB缓冲池.md
+      - MySQL查询原理: database/mysql/MySQL查询原理.md
+      - MySQL执行计划: database/mysql/MySQL执行计划.md
+      - MySQL事务: database/mysql/MySQL事务.md
+  - Spring: 
+    - Spring源码记录: spring/Spring源码记录.md
+  - GIT:
+    - Git交互式暂存: git/Git交互式暂存.md
+    - Git知识总结: git/Git知识总结.md
+  - 工具:
+    - mkdocs建站: mkdocs/mkdocs搭建记录.md
+  - 博客:
+    - blog/index.md
+#设置博客
+plugins:
+  - blog
+  - search
+
+#主题设置
 theme:
   name: material
+  language: zh
+  icon:
+    repo: fontawesome/brands/github-alt
+  palette: 
+    #light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    #dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    # 设置侧边栏始终显示在屏幕中
+    - toc.follow
+    # 设置导航卡
+    - navigation.tabs
+    - navigation.path
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+
+#Cookie管理
+extra:
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.

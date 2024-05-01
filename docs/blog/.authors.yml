@@ -1,0 +1,6 @@
+#设置博客作者
+authors:
+  chenwp:
+    name: 陈伟平
+    description: 作者
+    avatar: https://weiyan.cc/assets/logo.png
