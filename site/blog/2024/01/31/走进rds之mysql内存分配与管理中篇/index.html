@@ -9,21 +9,23 @@
       
       
       
+        <link rel="prev" href="../%E5%BA%96%E4%B8%81%E8%A7%A3innodb%E4%B9%8Bbuffer-pool/">
       
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>后花园</title>
+        <title>【走进RDS】之MySQL内存分配与管理（中篇） - 后花园</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.50c56a3b.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.50c56a3b.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -42,7 +44,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -77,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#rdsmysql" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -87,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="/." title="后花园" class="md-header__button md-logo" aria-label="后花园" data-md-component="logo">
+    <a href="../../../../.." title="后花园" class="md-header__button md-logo" aria-label="后花园" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              【走进RDS】之MySQL内存分配与管理（中篇）
             
           </span>
         </div>
@@ -234,7 +241,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/database/mysql/InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-tabs__link">
+        <a href="../../../../../database/mysql/InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-tabs__link">
           
   
     
@@ -257,7 +264,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
+        <a href="../../../../../spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
           
   
     
@@ -277,7 +284,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-tabs__link">
+        <a href="../../../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-tabs__link">
           
   
     
@@ -297,7 +304,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
+        <a href="../../../../../mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
           
   
     
@@ -313,11 +320,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/blog/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
           
   
     
@@ -341,7 +350,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -352,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="后花园" class="md-nav__button md-logo" aria-label="后花园" data-md-component="logo">
+    <a href="../../../../.." title="后花园" class="md-nav__button md-logo" aria-label="后花园" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -475,7 +486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-nav__link">
+      <a href="../../../../../database/mysql/InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -539,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/InnoDB%E7%A3%81%E7%9B%98%E7%BB%93%E6%9E%84/" class="md-nav__link">
+      <a href="../../../../../database/mysql/InnoDB%E7%A3%81%E7%9B%98%E7%BB%93%E6%9E%84/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -560,7 +571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-nav__link">
+      <a href="../../../../../database/mysql/InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -589,7 +600,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/MySQL%E6%9F%A5%E8%AF%A2%E5%8E%9F%E7%90%86/" class="md-nav__link">
+      <a href="../../../../../database/mysql/MySQL%E6%9F%A5%E8%AF%A2%E5%8E%9F%E7%90%86/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -610,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" class="md-nav__link">
+      <a href="../../../../../database/mysql/MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -631,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/database/mysql/MySQL%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+      <a href="../../../../../database/mysql/MySQL%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -711,7 +722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-nav__link">
+      <a href="../../../../../spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -785,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
+      <a href="../../../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,7 +817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+      <a href="../../../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,7 +889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-nav__link">
+      <a href="../../../../../mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -903,6 +914,8 @@
       
   
   
+    
+  
   
   
     
@@ -923,17 +936,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="/blog/" class="md-nav__link ">
+            <a href="../../../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -950,7 +963,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             博客
@@ -1009,7 +1022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/blog/archive/2024/" class="md-nav__link">
+      <a href="../../../../archive/2024/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1085,7 +1098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/blog/category/linux/" class="md-nav__link">
+      <a href="../../../../category/linux/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1108,7 +1121,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/blog/category/mybatis/" class="md-nav__link">
+      <a href="../../../../category/mybatis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1131,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/blog/category/mysql/" class="md-nav__link">
+      <a href="../../../../category/mysql/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1168,6 +1181,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -1177,6 +1192,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -1185,14 +1202,168 @@
             
           
           
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+                  <span class="md-ellipsis">
+                    回到主页
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://weiyan.cc/assets/logo.png" alt="陈伟平">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          陈伟平
+                        
+                      </strong>
+                      <br>
+                      作者
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    元数据
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5v-5Z"/></svg>
+                        <time datetime="2024-01-31 00:00:00" class="md-ellipsis">2024年1月31日</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3H9m3 2 4 13 3-1-4-13-3 1M5 5v13h3V5H5M3 19v2h18v-2H3Z"/></svg>
+                          <span class="md-ellipsis">
+                            分类于
+                            
+                              <a href="../../../../category/mysql/">MySql</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5Z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              需要 1 分钟阅读时间
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
 
-              </article>
+  
+  
+
+
+<h1 id="rdsmysql">【走进RDS】之MySQL内存分配与管理（中篇）</h1>
+<blockquote>
+<p>作者：宋华雄（桦雄）</p>
+<p>简述：主要介绍InnoDB的内存构成和使用，有源码层面的逻辑说明，基于8.0.25版本。</p>
+<p>原文链接：https://mp.weixin.qq.com/s/LQHcuDoQTdPmmjqnd6JeSg</p>
+</blockquote>
+<!-- more -->
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        这篇文章是否对您有帮助?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="有那么一点帮助~" data-md-value="5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35Z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="没啥帮助~" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5 3 7M16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3Z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="5" hidden>
+              
+              
+                
+              
+              感谢您的反馈！
             </div>
           
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              OKOK，好好好！
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+      
+    </article>
+  </div>
+
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
@@ -1207,6 +1378,30 @@
       
         <footer class="md-footer">
   
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../%E5%BA%96%E4%B8%81%E8%A7%A3innodb%E4%B9%8Bbuffer-pool/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 庖丁解InnoDB之Buffer Pool">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                庖丁解InnoDB之Buffer Pool
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
@@ -1305,10 +1500,10 @@
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["toc.follow", "navigation.tabs", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "search.highlight", "search.suggest"], "search": "/assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["toc.follow", "navigation.tabs", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "search.highlight", "search.suggest"], "search": "../../../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.d7c377c4.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
       
     
   </body>

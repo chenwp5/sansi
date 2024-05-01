@@ -22,6 +22,7 @@ nav:
     - mkdocs建站: mkdocs/mkdocs搭建记录.md
   - 博客:
     - blog/index.md
+
 #设置博客
 plugins:
   - blog
@@ -34,24 +35,31 @@ theme:
   icon:
     repo: fontawesome/brands/github-alt
   palette: 
-    #light mode
-    - scheme: default
+    - media: "(prefers-color-scheme)"
       toggle:
-        icon: material/brightness-7 
-        name: Switch to dark mode
-    #dark mode
-    - scheme: slate
+        icon: material/link
+        name: 切换到浅色模式
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: indigo
       toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+        icon: material/toggle-switch
+        name: 切换到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off
+        name: 切换到系统自适应模式
   features:
-    # 设置侧边栏始终显示在屏幕中
     - toc.follow
-    # 设置导航卡
     - navigation.tabs
     - navigation.path
     - navigation.top
     - navigation.indexes
+    - navigation.footer
     - search.highlight
     - search.suggest
 
@@ -64,3 +72,20 @@ extra:
       as to measure the effectiveness of our documentation and whether users
       find what they're searching for. With your consent, you're helping us to
       make our documentation better.
+  #google analytics
+  analytics:
+    provider: google
+    property: G-0XF6Z1SSY8
+    feedback:
+      title: 这篇文章是否对您有帮助?
+      ratings:
+        - icon: material/heart
+          name: 有那么一点帮助~
+          data: 5
+          note: >-
+            感谢您的反馈！
+        - icon: material/heart-broken
+          name: 没啥帮助~
+          data: 1
+          note: >- 
+            OKOK，好好好！

@@ -1,0 +1,2362 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/">
+      
+      
+        <link rel="next" href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>InnoDB磁盘结构 - 后花园</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-0XF6Z1SSY8"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-0XF6Z1SSY8",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-0XF6Z1SSY8",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>var consent;"undefined"==typeof __md_analytics||(consent=__md_get("__consent"))&&consent.analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#innodb" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="后花园" class="md-header__button md-logo" aria-label="后花园" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            后花园
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              InnoDB磁盘结构
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8v2m9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.71-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="切换到系统自适应模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到系统自适应模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/chenwp5/sansi" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chenwp/sansi
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-tabs__link">
+          
+  
+    
+  
+  数据库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
+          
+  
+    
+  
+  Spring
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-tabs__link">
+          
+  
+    
+  
+  GIT
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-tabs__link">
+          
+  
+    
+  
+  工具
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../blog/" class="md-tabs__link">
+          
+  
+    
+  
+  博客
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="后花园" class="md-nav__button md-logo" aria-label="后花园" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    后花园
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/chenwp5/sansi" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    chenwp/sansi
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    数据库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            数据库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_1" id="__nav_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MySql
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            MySql
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB版本及新特性
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_1_2" id="__nav_1_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    InnoDB存储引擎
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            InnoDB存储引擎
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    InnoDB磁盘结构
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB磁盘结构
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、数据目录和安装目录
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、数据库在文件系统中的表示
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、数据库在文件系统中的表示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 数据库在文件系统的表示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-innodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 InnoDB表在文件系统的表示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 表空间
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 表空间">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.1 系统表空间
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.2 独立表空间
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 表空间结构
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 表空间结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.1 段
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#242" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.2 区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3 页
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.3 页">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2431-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 PAGE页结构图
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2431" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 页中的数据记录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2431-file-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 FILE HEADER
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#244" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4 记录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.4 记录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2441-compact" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.1 COMPACT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2442" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.2 变长字段长度列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2443-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.3 NULL值列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2443" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.3 记录头信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2444" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.4 真实数据
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2445-dynamiccompressed" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.5 DYNAMIC和COMPRESSED
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    InnoDB缓冲池
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%E6%9F%A5%E8%AF%A2%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL查询原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL执行计划
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySQL事务
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Spring
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Spring
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../spring/Spring%E6%BA%90%E7%A0%81%E8%AE%B0%E5%BD%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Spring源码记录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    GIT
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            GIT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../git/Git%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%9A%82%E5%AD%98/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git交互式暂存
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../git/Git%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git知识总结
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    工具
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/mkdocs%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mkdocs建站
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    博客
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            博客
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    归档
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            归档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    分类
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            分类
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/mybatis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MyBatis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/mysql/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MySql
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、数据目录和安装目录
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、数据库在文件系统中的表示
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、数据库在文件系统中的表示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 数据库在文件系统的表示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-innodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 InnoDB表在文件系统的表示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 表空间
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 表空间">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.1 系统表空间
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3.2 独立表空间
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 表空间结构
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 表空间结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.1 段
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#242" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.2 区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3 页
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.3 页">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2431-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 PAGE页结构图
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2431" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 页中的数据记录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2431-file-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.3.1 FILE HEADER
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#244" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4 记录
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.4 记录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2441-compact" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.1 COMPACT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2442" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.2 变长字段长度列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2443-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.3 NULL值列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2443" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.3 记录头信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2444" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.4 真实数据
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2445-dynamiccompressed" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4.4.5 DYNAMIC和COMPRESSED
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="innodb">InnoDB磁盘结构</h1>
+<p>InnoDB存储引擎将表数据存储到磁盘上，而操作系统是通过<code>文件系统</code>来管理磁盘上的文件，所以InnoDB存储引擎把表存储到<code>文件系统</code>上。当我们想读取数据的时候，InnoDB从文件系统中把数据读出来返回给我们，当我们想写入数据的时候，InnoDB把这些数据又写回文件系统。</p>
+<h2 id="_1">一、数据目录和安装目录</h2>
+<p>安装MySQL时我们自己指定的位置就是<code>安装目录</code>。在MySQL服务器启动时会加载某个目录下的一些文件，之后在运行过程中产生的数据也都会存储到这个目录下的某些文件中，这个目录称为<code>数据目录</code>。</p>
+<p>MySQL的<code>数据目录</code>是通过系统变量<code>datadir</code>指定的：</p>
+<pre><code>mysql&gt; show variables like 'datadir';
++---------------+-----------------+
+| Variable_name | Value           |
++---------------+-----------------+
+| datadir       | /var/lib/mysql/ |
++---------------+-----------------+
+1 row in set (0.00 sec)
+</code></pre>
+<p>数据目录具体内容如下：</p>
+<pre><code>bash-4.4# ls -l /var/lib/mysql/
+total 101368
+-rw-r----- 1 mysql mysql   196608 Jan 27 04:07 '#ib_16384_0.dblwr'
+-rw-r----- 1 mysql mysql  8585216 Jan 27 04:05 '#ib_16384_1.dblwr'
+drwxr-x--- 2 mysql mysql     4096 Mar 24  2023 '#innodb_redo'
+drwxr-x--- 2 mysql mysql     4096 Mar 24  2023 '#innodb_temp'
+-rw-r----- 1 mysql mysql       56 Mar 24  2023  auto.cnf
+-rw-r----- 1 mysql mysql  3033044 Mar 24  2023  binlog.000001
+-rw-r----- 1 mysql mysql      157 Mar 24  2023  binlog.000002
+-rw-r----- 1 mysql mysql  1708346 Jan 27 04:05  binlog.000003
+-rw-r----- 1 mysql mysql       48 Mar 24  2023  binlog.index
+-rw------- 1 mysql mysql     1676 Mar 24  2023  ca-key.pem
+-rw-r--r-- 1 mysql mysql     1112 Mar 24  2023  ca.pem
+-rw-r--r-- 1 mysql mysql     1112 Mar 24  2023  client-cert.pem
+-rw------- 1 mysql mysql     1680 Mar 24  2023  client-key.pem
+drwxr-x--- 2 mysql mysql     4096 Jan 27 03:56  halo
+-rw-r----- 1 mysql mysql     5683 Mar 24  2023  ib_buffer_pool
+-rw-r----- 1 mysql mysql 12582912 Jan 27 04:05  ibdata1
+-rw-r----- 1 mysql mysql 12582912 Mar 24  2023  ibtmp1
+drwxr-x--- 2 mysql mysql     4096 Mar 24  2023  mysql
+-rw-r----- 1 mysql mysql 31457280 Jan 27 04:05  mysql.ibd
+lrwxrwxrwx 1 mysql mysql       27 Mar 24  2023  mysql.sock -&gt; /var/run/mysqld/mysqld.sock
+drwxr-x--- 2 mysql mysql     4096 Mar 24  2023  performance_schema
+-rw------- 1 mysql mysql     1676 Mar 24  2023  private_key.pem
+-rw-r--r-- 1 mysql mysql      452 Mar 24  2023  public_key.pem
+-rw-r--r-- 1 mysql mysql     1112 Mar 24  2023  server-cert.pem
+-rw------- 1 mysql mysql     1680 Mar 24  2023  server-key.pem
+drwxr-x--- 2 mysql mysql     4096 Mar 24  2023  sys
+-rw-r----- 1 mysql mysql 16777216 Jan 27 04:07  undo_001
+-rw-r----- 1 mysql mysql 16777216 Jan 27 04:07  undo_002
+</code></pre>
+<h2 id="_2">二、数据库在文件系统中的表示</h2>
+<h3 id="21">2.1 数据库在文件系统的表示</h3>
+<p>当我们创建一个数据库时，会默认在数据目录下创建一个同名的文件夹，本文示例数据库如下，其中halo库是我们自己新增的，其他四个均为MySQL系统数据库：</p>
+<pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| halo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+</code></pre>
+<p>可以在上文<code>数据目录</code>中发现除了<code>information_schema</code>之外的数据库都能找到对应的文件夹。<code>information_schema</code>比较特殊，MySQL对它进行了特殊的处理，因此没有对应的文件夹。</p>
+<h3 id="22-innodb">2.2 InnoDB表在文件系统的表示</h3>
+<p>当我们在某个数据库里创建一个InnoDB表时，例如：</p>
+<pre><code>USE halo;
+CREATE TABLE t1 (a INT, b CHAR (20), PRIMARY KEY (a)) ENGINE=InnoDB;
+</code></pre>
+<p>在默认情况下，会在<code>数据目录</code>对应数据库文件夹（halo）下创建一个<code>表名.ibd</code>文件，如下：</p>
+<pre><code>bash-4.4# ls -l halo/
+total 824
+-rw-r----- 1 mysql mysql 114688 Feb 20 08:44 t1.ibd
+</code></pre>
+<blockquote>
+<p>本文示例数据库版本为8.0.31，在8.0版本之前创建一个表会生成两个文件：</p>
+<ul>
+<li>表名.frm</li>
+<li>表名.ibd</li>
+</ul>
+<p>其中frm文件用来保存表结构的定义信息。ibd文件用来保存表中的数据。</p>
+</blockquote>
+<h3 id="23">2.3 表空间</h3>
+<p>InnoDB使用表空间来管理数据和索引，它实际对应文件系统上一个或多个文件。InnoDB表空间有以下几种：系统表空间、独立表间、通用表空间、undo表空间、临时表空间。</p>
+<h4 id="231">2.3.1 系统表空间</h4>
+<p>系统表空间通过变量<code>innodb_data_file_path</code>配置，如下：</p>
+<pre><code>mysql&gt; SHOW VARIABLES LIKE 'innodb_data_file_path';
++-----------------------+------------------------+
+| Variable_name         | Value                  |
++-----------------------+------------------------+
+| innodb_data_file_path | ibdata1:12M:autoextend |
++-----------------------+------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+<p>其格式为：</p>
+<pre><code>file_name1:file_size1;file_name2:file_size2[:autoextend[:max:max_file_size]]
+</code></pre>
+<p>默认情况下系统表空间即为文件系统中的ibdata1文件，默认大小为12M，并且可以自动扩展。我们可以通过修改<code>innodb_data_file_path</code>变量来改变系统表空间，例如：</p>
+<pre><code>[mysqld]
+innodb_data_file_path=ibdata1:50M;ibdata2:50M:autoextend
+</code></pre>
+<p>这样在启动时MySQL就会创建两个大小为50M的文件作为系统表空间，并且空间不足时可以自动扩展。</p>
+<h4 id="232">2.3.2 独立表空间</h4>
+<p>在MySQL5.6.6之前的版本会把表中的数据默认都保存到<code>系统表空间</code>中。5.6.6及之后的版本，会为每一个表都创建一个<code>独立表空间</code>，也就是<code>数据目录</code>下数据库文件夹里面的每一个<code>表名.ibd</code>文件就是一个独立表空间。</p>
+<p>我们可以通过变量<code>innodb_file_per_table</code>来控制是使用系统表空间还是独立表空间。</p>
+<pre><code>mysql&gt; SHOW VARIABLES LIKE 'innodb_file_per_table';
++-----------------------+-------+
+| Variable_name         | Value |
++-----------------------+-------+
+| innodb_file_per_table | ON    |
++-----------------------+-------+
+1 row in set (0.00 sec)
+</code></pre>
+<p>对于已分配的表，想更换表空间时可以通过如下语句修改：</p>
+<pre><code>--将表从系统表空间转移到独立表空间
+ALTER TABLE 表名 TABLESPACE innodb_file_per_table;
+--将表从独立表空间转移到系统表空间
+ALTER TABLE 表名 TABLESPACE innodb_system;
+</code></pre>
+<h3 id="24">2.4 表空间结构</h3>
+<p>表空间由段、区、页组成，其逻辑结构大致如下图所示：</p>
+<p><img alt="img" src="../img/innodb_table_struc.png" /></p>
+<h4 id="241">2.4.1 段</h4>
+<p>表空间由各个段组成，常见的有数据段、索引段、回滚段等。InnoDB的表是索引组织表，因此数据及索引，索引即数据。那么数据段即为B+树叶子节点，索引段即为B+树非叶子节点。</p>
+<h4 id="242">2.4.2 区</h4>
+<p>区是由连续的页组成的空间，默认情况下，一个区由64个连续的页组成，一个页大小为16K，因此一个区大小为1M。</p>
+<blockquote>
+<p>注：引入段和区是为了提升查询的性能</p>
+<ul>
+<li>一个区由连续的页组成，避免随机IO。</li>
+<li>而段的划分，是为了针对不同的数据，我们只需在不同类型的段中查询即可。如果段不区分不同数据，那么一个段中保存的连续的数据页的个数将会降低，查询时将增加随机IO的次数。</li>
+</ul>
+</blockquote>
+<h4 id="243">2.4.3 页</h4>
+<p>在InnoDB中一个页默认大小为16K，每次从磁盘以页为最小单位读取数据。可以通过<code>innodb_page_size</code>来配置一个页大小。</p>
+<pre><code>mysql&gt; SHOW VARIABLES LIKE 'innodb_page_size';
++------------------+-------+
+| Variable_name    | Value |
++------------------+-------+
+| innodb_page_size | 16384 |
++------------------+-------+
+1 row in set (0.01 sec)
+</code></pre>
+<p>一个<code>InnoDB</code>数据页的存储空间大致被划分成了<code>7</code>个部分，有的部分占用的字节数是确定的，有的部分占用的字节数是不确定的。如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">名称</th>
+<th style="text-align: left;">中文名</th>
+<th style="text-align: left;">占用空间大小</th>
+<th style="text-align: left;">简单描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>File Header</code></td>
+<td style="text-align: left;">文件头部</td>
+<td style="text-align: left;"><code>38</code>字节</td>
+<td style="text-align: left;">页的一些通用信息</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Page Header</code></td>
+<td style="text-align: left;">页面头部</td>
+<td style="text-align: left;"><code>56</code>字节</td>
+<td style="text-align: left;">数据页专有的一些信息</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Infimum + Supremum</code></td>
+<td style="text-align: left;">最小记录和最大记录</td>
+<td style="text-align: left;"><code>26</code>字节</td>
+<td style="text-align: left;">两个虚拟的行记录</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>User Records</code></td>
+<td style="text-align: left;">用户记录</td>
+<td style="text-align: left;">不确定</td>
+<td style="text-align: left;">实际存储的行记录内容</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Free Space</code></td>
+<td style="text-align: left;">空闲空间</td>
+<td style="text-align: left;">不确定</td>
+<td style="text-align: left;">页中尚未使用的空间</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Page Directory</code></td>
+<td style="text-align: left;">页面目录</td>
+<td style="text-align: left;">不确定</td>
+<td style="text-align: left;">页中的某些记录的相对位置</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>File Trailer</code></td>
+<td style="text-align: left;">文件尾部</td>
+<td style="text-align: left;"><code>8</code>字节</td>
+<td style="text-align: left;">校验页是否完整</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2431-page">2.4.3.1 PAGE页结构图</h5>
+<p><img alt="img" src="../img/page.png" /></p>
+<h5 id="2431">2.4.3.1 页中的数据记录</h5>
+<p>用户入库的数据记录会保存在<code>User Records</code>中。初始化数据页时，并没有<code>User Records</code>部分，每当插入一条记录时，都会从<code>Free Space</code>部分申请一个记录大小的空间划分到<code>User Records</code>部分，当<code>Free Space</code>部分全部被<code>User Records</code>替换掉事，这页就用完了，当新纪录再插入时，就需要申请新的页。</p>
+<p><img alt="img" src="../img/records_in_page.png" /></p>
+<h5 id="2431-file-header">2.4.3.1 FILE HEADER</h5>
+<p><code>File Header</code>保存各种页都通用的一些信息，不同类型的页都会以<code>File Header</code>作为第一个组成部分，这个部分占用固定的<code>38</code>个字节，由下边这些内容组成</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">名称</th>
+<th style="text-align: left;">占用空间大小</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_SPACE_OR_CHKSUM</code></td>
+<td style="text-align: left;"><code>4</code>字节</td>
+<td style="text-align: left;">页的校验和（checksum值）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_OFFSET</code></td>
+<td style="text-align: left;"><code>4</code>字节</td>
+<td style="text-align: left;">页号</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_PREV</code></td>
+<td style="text-align: left;"><code>4</code>字节</td>
+<td style="text-align: left;">上一个页的页号</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_NEXT</code></td>
+<td style="text-align: left;"><code>4</code>字节</td>
+<td style="text-align: left;">下一个页的页号</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_LSN</code></td>
+<td style="text-align: left;"><code>8</code>字节</td>
+<td style="text-align: left;">页面被最后修改时对应的日志序列位置（英文名是：Log Sequence Number）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE</code></td>
+<td style="text-align: left;"><code>2</code>字节</td>
+<td style="text-align: left;">该页的类型</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_FILE_FLUSH_LSN</code></td>
+<td style="text-align: left;"><code>8</code>字节</td>
+<td style="text-align: left;">仅在系统表空间的一个页中定义，代表文件至少被刷新到了对应的LSN值</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_ARCH_LOG_NO_OR_SPACE_ID</code></td>
+<td style="text-align: left;"><code>4</code>字节</td>
+<td style="text-align: left;">页属于哪个表空间</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>FIL_PAGE_OFFSET</li>
+</ul>
+<p>每一个页都有一个页号，InnoDB通过页号来唯一定位一个页。</p>
+<ul>
+<li>FIL_PAGE_TYPE</li>
+</ul>
+<p>当前页的类型，InnoDB为了不同的目的把页分为不同的类型。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">类型名称</th>
+<th style="text-align: left;">十六进制</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_ALLOCATED</code></td>
+<td style="text-align: left;">0x0000</td>
+<td style="text-align: left;">最新分配，还没使用</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_UNDO_LOG</code></td>
+<td style="text-align: left;">0x0002</td>
+<td style="text-align: left;">Undo日志页</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_INODE</code></td>
+<td style="text-align: left;">0x0003</td>
+<td style="text-align: left;">段信息节点</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_IBUF_FREE_LIST</code></td>
+<td style="text-align: left;">0x0004</td>
+<td style="text-align: left;">Insert Buffer空闲列表</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_IBUF_BITMAP</code></td>
+<td style="text-align: left;">0x0005</td>
+<td style="text-align: left;">Insert Buffer位图</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_SYS</code></td>
+<td style="text-align: left;">0x0006</td>
+<td style="text-align: left;">系统页</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_TRX_SYS</code></td>
+<td style="text-align: left;">0x0007</td>
+<td style="text-align: left;">事务系统数据</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_FSP_HDR</code></td>
+<td style="text-align: left;">0x0008</td>
+<td style="text-align: left;">表空间头部信息</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_XDES</code></td>
+<td style="text-align: left;">0x0009</td>
+<td style="text-align: left;">扩展描述页</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_TYPE_BLOB</code></td>
+<td style="text-align: left;">0x000A</td>
+<td style="text-align: left;">溢出页</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FIL_PAGE_INDEX</code></td>
+<td style="text-align: left;">0x45BF</td>
+<td style="text-align: left;">索引页，也就是我们所说的<code>数据页</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>FIL_PAGE_PREV和FIL_PAGE_NEXT</li>
+</ul>
+<p>InnoDB以页为单位存放数据，当表中数据量很大时，InnoDB不可能一次性分配一个连续的大空间来保存数据页，所以数据页实际在磁盘上是离散存储的。InnoDB为了管理数据页，在<code>File Header</code>中保存了上一个页和下一个页的页号。这样通过家里一个双向链表把很多页串联起来。</p>
+<p><img alt="img" src="../img/page_list.png" /></p>
+<h4 id="244">2.4.4 记录</h4>
+<p>InnoDB规定每页最少保存两条记录。当记录中的数据太多，当前页放不下的时候，会把多余的数据存储到其他页中，这种现象称为<code>行溢出</code>。</p>
+<p>InnoDB目前提供四种格式：Compact、Redundant、Dynamic和Compressed。</p>
+<ul>
+<li>Redundant是MySQL5.0版本之前一种非紧凑的行格式，现在基本没人用了。</li>
+<li>Compact是MySQL5.0之后引入的一种紧凑的行格式，为了让一个数据页中可以存放更多的行记录</li>
+<li>Dynamic和Compressed两个都是紧凑的行格式，它们的行格式都和Compact差不多，因为都是基于Compact改进一点东西。从MySQL5.7版本之后，默认使用Dynamic行格式。</li>
+</ul>
+<h5 id="2441-compact">2.4.4.1 COMPACT</h5>
+<p><img alt="img" src="../img/compact_structure.png" /></p>
+<h5 id="2442">2.4.4.2 变长字段长度列表</h5>
+<p>我们知道<code>MySQL</code>支持一些变长的数据类型，比如<code>VARCHAR(M)</code>、<code>VARBINARY(M)</code>、各种<code>TEXT</code>类型，各种<code>BLOB</code>类型，我们也可以把拥有这些数据类型的列称为<code>变长字段</code>，变长字段中存储多少字节的数据是不固定的，所以我们在存储真实数据的时候需要顺便把这些数据占用的字节数也存起来，这样才不至于把<code>MySQL</code>服务器搞懵，所以这些变长字段占用的存储空间分为两部分：</p>
+<ol>
+<li>真正的数据内容（保存在<code>真实数据</code>）</li>
+<li>占用的字节数（保存在<code>变长字段列表</code>）</li>
+</ol>
+<p>在<code>Compact</code>行格式中，把所有变长字段的真实数据占用的字节长度都存放在记录的开头部位，从而形成一个变长字段长度列表，各变长字段数据占用的字节数以16进制格式按照列的顺序逆序存放，逆序存放！</p>
+<h5 id="2443-null">2.4.4.3 NULL值列表</h5>
+<p>我们知道表中的某些列可能存储<code>NULL</code>值，如果把这些<code>NULL</code>值都放到<code>记录的真实数据</code>中存储会很占地方，所以<code>Compact</code>行格式把这些值为<code>NULL</code>的列统一管理起来，存储到<code>NULL</code>值列表中。</p>
+<h5 id="2443">2.4.4.3 记录头信息</h5>
+<p>除了<code>变长字段长度列表</code>、<code>NULL值列表</code>之外，还有一个用于描述记录的<code>记录头信息</code>，它是由固定的<code>5</code>个字节组成。<code>5</code>个字节也就是<code>40</code>个二进制位，不同的位代表不同的意思，如图：</p>
+<p><img alt="img" src="../img/record_head.png" /></p>
+<p>这些二进制位代表的详细信息如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">名称</th>
+<th style="text-align: left;">大小（单位：bit）</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>预留位1</code></td>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">没有使用</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>预留位2</code></td>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">没有使用</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>delete_mask</code></td>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">标记该记录是否被删除</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>min_rec_mask</code></td>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">B+树的每层非叶子节点中的最小记录都会添加该标记</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>n_owned</code></td>
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">表示当前记录拥有的记录数</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>heap_no</code></td>
+<td style="text-align: left;"><code>13</code></td>
+<td style="text-align: left;">表示当前记录在记录堆的位置信息</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>record_type</code></td>
+<td style="text-align: left;"><code>3</code></td>
+<td style="text-align: left;">表示当前记录的类型，<code>0</code>表示普通记录，<code>1</code>表示B+树非叶子节点记录，<code>2</code>表示最小记录，<code>3</code>表示最大记录</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>next_record</code></td>
+<td style="text-align: left;"><code>16</code></td>
+<td style="text-align: left;">表示下一条记录的相对位置</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2444">2.4.4.4 真实数据</h5>
+<p>记录的真实数据我们自己定义的列的数据以外，<code>MySQL</code>会为每个记录默认的添加一些列（也称为<code>隐藏列</code>），具体的列如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">列名</th>
+<th style="text-align: left;">是否必须</th>
+<th style="text-align: left;">占用空间</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>row_id</code></td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;"><code>6</code>字节</td>
+<td style="text-align: left;">行ID，唯一标识一条记录</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>transaction_id</code></td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;"><code>6</code>字节</td>
+<td style="text-align: left;">事务ID</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>roll_pointer</code></td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;"><code>7</code>字节</td>
+<td style="text-align: left;">回滚指针</td>
+</tr>
+</tbody>
+</table>
+<p>现在看一下加上<code>记录的真实数据</code>的两个记录长什么样吧：</p>
+<p><img alt="img" src="../img/record.png" /></p>
+<h5 id="2445-dynamiccompressed">2.4.4.5 DYNAMIC和COMPRESSED</h5>
+<p>这两种行格式类似于<code>COMPACT行格式</code>，只不过在处理行溢出数据时有点儿分歧，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</p>
+<p>另外，<code>Compressed</code>行格式会采用压缩算法对页面进行压缩。</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        这篇文章是否对您有帮助?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="有那么一点帮助~" data-md-value="5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35Z"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="没啥帮助~" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 21.35-1.45-1.32C5.4 15.36 2 12.27 2 8.5 2 5.41 4.42 3 7.5 3c.67 0 1.32.12 1.94.33L13 9.35l-4 5 3 7M16.5 3C19.58 3 22 5.41 22 8.5c0 3.77-3.4 6.86-8.55 11.53L12 21.35l-1-7 4.5-5-2.65-5.08C13.87 3.47 15.17 3 16.5 3Z"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="5" hidden>
+              
+              
+                
+              
+              感谢您的反馈！
+            </div>
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              OKOK，好好好！
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../InnoDB%E7%89%88%E6%9C%AC%E5%8F%8A%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-footer__link md-footer__link--prev" aria-label="上一页: InnoDB版本及新特性">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                InnoDB版本及新特性
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../InnoDB%E7%BC%93%E5%86%B2%E6%B1%A0/" class="md-footer__link md-footer__link--next" aria-label="下一页: InnoDB缓冲池">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                InnoDB缓冲池
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+  
+    
+  
+
+
+  
+    
+  
+
+
+
+  
+
+
+<h4>Cookie consent</h4>
+<p>We use cookies to recognize your repeated visits and preferences, as well as to measure the effectiveness of our documentation and whether users find what they're searching for. With your consent, you're helping us to make our documentation better.</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+      
+      
+        
+        
+      
+      <li class="task-list-item">
+        <label class="task-list-control">
+          <input type="checkbox" name="analytics" checked>
+          <span class="task-list-indicator"></span>
+          Google Analytics
+        </label>
+      </li>
+    
+      
+      
+        
+        
+      
+      <li class="task-list-item">
+        <label class="task-list-control">
+          <input type="checkbox" name="github" checked>
+          <span class="task-list-indicator"></span>
+          GitHub
+        </label>
+      </li>
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">同意</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">管理设定</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["toc.follow", "navigation.tabs", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "search.highlight", "search.suggest"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
