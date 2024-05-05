@@ -18,7 +18,7 @@ Spring框架最核心的功能为IOC，我们一般称BeanFactory为Spring的IOC
 
 接口[`ConfigurableListableBeanFactory`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/ConfigurableListableBeanFactory.html) 和[`BeanDefinitionRegistry`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/support/BeanDefinitionRegistry.html)的默认实现。基于 bean 定义元数据的成熟 bean 工厂，可通过后处理器扩展。其类图如下所示：
 
-![](./img/Spring002.jpg)
+![](./img/Spring002.png)
 
 
 
@@ -219,7 +219,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 
 
-**`ConfigurableBeanFactory`**接口不适合在正常应用程序代码中使用——应使用 `**BeanFactory**` 或 **`org.springframework.beans.factory.ListableBeanFactory`** 。 这个扩展接口只是为了允许框架内部即插即用以及对 bean 工厂配置方法的特殊访问。
+**`ConfigurableBeanFactory`**接口不适合在正常应用程序代码中使用——应使用 **`BeanFactory`** 或 **`org.springframework.beans.factory.ListableBeanFactory`** 。 这个扩展接口只是为了允许框架内部即插即用以及对 bean 工厂配置方法的特殊访问。
 
 
 
@@ -272,7 +272,250 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 }
 ```
 
-### 2.3 使用示例
+### 2.3 AbstractAutowireCapableBeanFactory
+
+通过上文可知**`DefaultListableBeanFactory`**继承了**`AbstractAutowireCapableBeanFactory`**类，该类实现了接口**`AutowireCapableBeanFactory`**，提供自动装配能力。同时集成了**`AbstractBeanFactory`**类。
+
+#### 2.3.1 SimpleAliasRegistry
+
+该类上文已经提到过，实现了接口**`AliasRegistry`**，用于管理bean的别名。
+
+**`SimpleAliasRegistry`**类部分源码如下，通过**ConcurrentHashMap**来保存别名和bean名称的映射关系。
+
+```java
+public class SimpleAliasRegistry implements AliasRegistry {
+
+	private final Map<String, String> aliasMap = new ConcurrentHashMap<>(16);
+
+	@Override
+	public void registerAlias(String name, String alias) {
+		...
+	}
+
+	@Override
+	public String[] getAliases(String name) {
+		List<String> result = new ArrayList<>();
+		synchronized (this.aliasMap) {
+			retrieveAliases(name, result);
+		}
+		return StringUtils.toStringArray(result);
+	}
+	...
+}
+```
+
+#### 2.3.2 DefaultSingletonBeanRegistry
+
+上文2.2.2节有说明该类，是接口**`SingletonBeanRegistry`**真正的实现类。
+
+[类说明，该类注册bean是使用三级缓存，用于解决循环依赖问题](https://cloud.tencent.com/developer/article/1497692)
+
+#### 2.3.3 FactoryBeanRegistrySupport
+
+ **`FactoryBeanRegistrySupport`**主要是在**`DefaultSingletonBeanRegistry`**基础上增加了对**`FactoryBean`**的特殊处理功能。
+
+因此**`FactoryBeanRegistrySupport`**我们称其问单例bean的注册中心，负责管理所有的单例bean。
+
+#### 2.3.4 AbstractBeanFactory
+
+作为顶层抽象实现，**`AbstractBeanFactory`** 实现了 **`BeanFactory`** 、**`HierarchicalBeanFactory`**、 **`ConfigurableBeanFactory`** 定义的大多数方法，同时将核心方法抽象出来交由子类拓展与实现。
+
+
+
+**`AbstractBeanFactory`** 定义了三个核心的 抽象方法，交由子类实现，具体的实现类即为**`AbstractAutowireCapableBeanFactory`**.
+
+```java
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
+    
+	protected abstract boolean containsBeanDefinition(String beanName);
+    
+	protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
+    
+	protected abstract Object createBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args) throws BeanCreationException;
+    
+    //省略其他属性及方法......
+}
+```
+
+### 2.4 使用示例
+
+本示例最好将代码在本地debug，对比文章进行阅读。
+
+首先提前准备三个Bean，如下
+
+```java
+@Configuration
+class Config {
+    @Bean
+    public Bean1 bean1() {
+        return new Bean1();
+    }
+}
+
+class Bean1 {
+    String name;
+    @Autowired
+    Bean2 bean2;
+}
+
+class Bean2 {
+    String name;
+}
+```
+
+#### 2.4.1 新建IOC容器
+
+后续代码都基于下面该类。
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.beans.factory.support.*;
+import org.springframework.context.annotation.*;
+
+public class DefaultListableBeanFactoryDemo {
+
+    public static void main(String[] args) {
+        defaultListableBeanFactory();
+    }
+
+    private static void defaultListableBeanFactory() {
+        //1.创建一个IOC容器，此时容器中什么都没有
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        //2.将注解配置的bean生成beanDefinition
+        AbstractBeanDefinition configBeanDefinition =
+            	BeanDefinitionBuilder.genericBeanDefinition(Config.class)
+                .setScope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+                .getBeanDefinition();
+
+        //3.将beanDefinition注册到IOC容器
+        beanFactory.registerBeanDefinition("config", configBeanDefinition);
+
+        //输出结果为：config
+        println(beanFactory, 1);
+
+    }
+
+    /**
+     * 输出beanFactory中所有bean的名称
+     *
+     * @param beanFactory bean工厂
+     */
+    private static void println(DefaultListableBeanFactory beanFactory, int number) {
+        System.out.println("=============" + number + "=============");
+        for (String beanDefinitionName : beanFactory.getBeanDefinitionNames()) {
+            System.out.println(beanDefinitionName);
+        }
+    }
+
+}
+```
+
+通过本例可以发现**`Config`**的Bean定义信息已经注册到了IOC容器中，但是**`Config`**中的定义的Bean1没有注册到IOC容器中。
+
+
+
+因此，提出两个问题：
+
+- 问题一：**`@Configuration`、`@bean`**注解为什么没有生效？
+- 问题二：什么时候解析**`@Configuration`、`@bean`**生成**`BeanDefinition`**？
+
+#### 2.4.2 新增后置工厂处理器
+
+在上例基础上新增步骤4、5
+
+```java
+//4.添加ConfigurationClassPostProcessor的beanDefinition到IOC容器
+AbstractBeanDefinition ConfigurationClassPostProcessorBeanDefinition = 
+    	BeanDefinitionBuilder.genericBeanDefinition(ConfigurationClassPostProcessor.class)
+        .setScope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+        .getBeanDefinition();
+
+beanFactory.registerBeanDefinition(
+    "configurationClassPostProcessor", ConfigurationClassPostProcessorBeanDefinition);
+
+//5.执行后置工厂处理器，解析@Configuration配置类
+beanFactory.getBean(ConfigurationClassPostProcessor.class).postProcessBeanDefinitionRegistry(beanFactory);
+println(beanFactory, 2);
+```
+
+再次执行，可以发现IOC容器中除了我们手动新增的两个**`beanDefinition`**，还多了Bea1。
+
+```
+=============1=============
+config
+=============2=============
+config
+configurationClassPostProcessor
+getBean1
+```
+
+- 问题解答:
+
+```
+1:Spring中通过后置工厂处理器ConfigurationClassPostProcessor来负责解析@Configuration配置类。
+
+2:执行ConfigurationClassPostProcessor#postProcessBeanDefinitionRegistry方法可以解析IOC
+容器中的所有的@Configuration配置类，并解析配置类中所有@Bean生成BeanDefinition注册到IOC容器中。
+
+3:ConfigurationClassPostProcessor解析如下注解：
+    @Configuration 
+    @Bean @Import 
+    @ImportResource 
+    @ComponentScan、
+    @ComponentScans
+ 因此配置类中如下注解标注的BeanDefinition都会被注册到IOC容器中。
+```
+
+- ConfigurationClassPostProcessor部分关键源码如下
+
+```java
+public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
+    List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
+    String[] candidateNames = registry.getBeanDefinitionNames();
+    //筛选所有@Configuration配置类
+    for (String beanName : candidateNames) {
+        BeanDefinition beanDef = registry.getBeanDefinition(beanName);
+        if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
+            configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
+        }
+    }
+
+    // Parse each @Configuration class
+    ConfigurationClassParser parser = new ConfigurationClassParser(
+            this.metadataReaderFactory, this.problemReporter, this.environment,
+            this.resourceLoader, this.componentScanBeanNameGenerator, registry);
+
+    Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);
+    Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
+    do {
+        StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
+        //解析@Configuration配置类
+        parser.parse(candidates);
+        parser.validate();
+
+        Set<ConfigurationClass> configClasses = new LinkedHashSet<>(parser.getConfigurationClasses());
+        configClasses.removeAll(alreadyParsed);
+
+        // Read the model and create bean definitions based on its content
+        if (this.reader == null) {
+            this.reader = new ConfigurationClassBeanDefinitionReader(
+                    registry, this.sourceExtractor, this.resourceLoader, this.environment,
+                    this.importBeanNameGenerator, parser.getImportRegistry());
+        }
+        //将所有解析的BeanDefinition注册到IOC容器中
+        this.reader.loadBeanDefinitions(configClasses);
+
+    }
+    while (!candidates.isEmpty());
+
+}
+```
+
+#### 2.4.3 新增Bean后置处理器
+
+本例Bean1中通过`@Autowired`注解自动注入bean2，Autowired注解默认required的属性值为true，因此当解析该注解时，就会报没有Bean2的错误。
 
 
 
